@@ -21,6 +21,8 @@ This repository is independent from the frequency-routing mainline project. It d
 ## Repository layout
 
 - `docs/`: research brief, paper lineage, and decisions;
+- `governance/`: research-agent and experiment-agent authority, handoff, and Git rules;
+- `research/reviews/`: immutable design and result review records from the research agent;
 - `experiment_handoffs/tasks/`: approved experiment task cards;
 - `experiment_handoffs/results/`: evidence-backed result reports;
 - `configs/`: model, dataset, and training configurations;
@@ -31,4 +33,4 @@ This repository is independent from the frequency-routing mainline project. It d
 
 ## Immediate next step
 
-Freeze an initial baseline reproduction task before implementing PDD or SSR.
+Review and merge the role-separated governance branch, then rebase the PRT-001 experiment branch onto the governed `main`. PDD and SSR remain locked until PRT-001 is formally reviewed and passed.

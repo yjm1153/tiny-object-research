@@ -1,13 +1,7 @@
-# Experiment tasks
+# 实验任务卡
 
-Each formal experiment must have a task card specifying:
+每项正式实验必须使用上级目录的 `TASK_TEMPLATE.md`，并由研究设计 agent 建立、审查和冻结。
 
-- task ID and status;
-- research question and falsifiable hypothesis;
-- exact baseline, dataset, split, seed, input size, and training budget;
-- allowed files and configurations;
-- primary metrics and controls;
-- success and stop conditions;
-- expected evidence paths.
+任务卡至少包含：任务ID、唯一研究问题、可证伪假设、数据与split、模型、seed、输入尺度、训练预算、允许文件、固定项、对照、指标、Gate、停止条件和证据路径。
 
-The first task should reproduce the selected baseline before any PRTiny module is added.
+实验执行 agent 对本目录只读。任务进入执行后，任何核心变更都必须使用独立 amendment 并重新审查。
