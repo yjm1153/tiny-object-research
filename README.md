@@ -21,6 +21,7 @@ This repository is independent from the frequency-routing mainline project. It d
 ## Repository layout
 
 - `docs/`: research brief, paper lineage, and decisions;
+- `docs/memory/`: versioned project context, evidence ledger, and new-Codex bootstrap;
 - `governance/`: research-agent and experiment-agent authority, handoff, and Git rules;
 - `research/reviews/`: immutable design and result review records from the research agent;
 - `experiment_handoffs/tasks/`: approved experiment task cards;
@@ -34,3 +35,7 @@ This repository is independent from the frequency-routing mainline project. It d
 ## Immediate next step
 
 Review and merge the role-separated governance branch, then rebase the PRT-001 experiment branch onto the governed `main`. PDD and SSR remain locked until PRT-001 is formally reviewed and passed.
+
+## New Codex project
+
+Open `D:\研究\tiny-object-research` as the workspace and begin with `docs/memory/START_HERE.md`. Repository files are authoritative over old chats or global memory.

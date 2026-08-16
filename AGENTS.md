@@ -100,3 +100,11 @@ FPS/latency 只有在同一 GPU、输入尺寸、batch、精度、warm-up 和计
 - 禁止 force-push、改写共享历史、删除他人分支/tag，或未经研究审查自行 merge。
 - commit/push 只代表工作已保存，不代表实验完成或科研结论成立。
 - 所有角色必须遵守 `governance/GitHub提交与同步约定.md`。
+
+## 9. 项目内研究记忆
+
+- 新任务首先读取 `docs/memory/START_HERE.md` 与 `docs/memory/CURRENT_STATE.md`。
+- 仓库内记忆的事实层级和更新规则见 `docs/memory/README.md`。
+- 研究设计 agent可以版本化更新 `docs/memory/**`；实验执行 agent只读，只能通过结果报告回传待审查信息。
+- 旧聊天、外部笔记和全局Codex memory仅作为待核验线索，不能覆盖AGENTS、decision、任务卡或正式研究审查。
+- 未通过研究审查的实验不得进入 `docs/memory/EVIDENCE_LEDGER.md`。
