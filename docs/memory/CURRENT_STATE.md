@@ -5,7 +5,7 @@
 - Workspace: `D:\研究\tiny-object-research`
 - Current governance branch: `codex/research-governance-system`
 - Governance baseline commit: `094b019`
-- Remote status: `REMOTE_NOT_CONFIGURED`
+- Remote status: `https://github.com/yjm1153/tiny-object-research.git` (已关联并推送)
 
 ## 1. 项目身份
 
