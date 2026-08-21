@@ -16,6 +16,9 @@ Thumbs.db
 # Data and model artifacts
 data/*
 !data/README.md
+!data/pretrained/
+!data/pretrained/*.json
+!data/pretrained/*.md
 weights/
 checkpoints/
 *.pt

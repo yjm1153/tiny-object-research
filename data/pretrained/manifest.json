@@ -1,0 +1,18 @@
+[
+  {
+    "filename": "resnet50_msra-5891d200.pth",
+    "path": "data/pretrained/resnet50_msra-5891d200.pth",
+    "size_bytes": 94284731,
+    "sha256": "5891d200ef31febc610b915837775354fa880be47283cd0b14648a95aa13465e",
+    "source_url": "https://download.openmmlab.com/pretrain/third_party/resnet50_msra-5891d200.pth",
+    "framework": "MMDetection / MSRA standard"
+  },
+  {
+    "filename": "resnet50-0676ba61.pth",
+    "path": "data/pretrained/resnet50-0676ba61.pth",
+    "size_bytes": 102530333,
+    "sha256": "0676ba61b6795bbe1773cffd859882e5e297624d384b6993f7c9e683e722fb8a",
+    "source_url": "https://download.pytorch.org/models/resnet50-0676ba61.pth",
+    "framework": "PyTorch Torchvision"
+  }
+]
