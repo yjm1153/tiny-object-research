@@ -2,12 +2,14 @@
 
 本文件适用于整个独立副线仓库。子目录中的 `AGENTS.md` 只能增加限制，不能放宽本文件的研究、证据或权限边界。
 
-## 1. 角色分工
+## 1. 角色分工与协作模式
 
-- **研究设计 agent**：负责问题定义、文献审查、方法设计、实验协议、成功/停止门槛、任务卡审批、结果审查和下一阶段放行。
-- **实验执行 agent**：只负责已批准任务卡中的实现、测试、训练、评估、测速与证据回传，无权改写研究路线或批准自己的实验。
-- 同一 agent/session 不得在同一 TASK-ID 中同时充当实验执行者和结果批准者；角色切换不能消除这一隔离要求。缺少独立研究设计 agent 时，实验只能保持 `READY_FOR_REVIEW`，不得自行放行。
-- 任务同时包含设计与实验时，必须先冻结任务卡和设计审查，再开始实现或运行；不得边实验边静默修改研究问题。
+本项目采用**“中长期目标引领 + 必要里程碑节点审查 + 实验执行自主闭环与自我审查”**的协作模式：
+
+- **研究设计 agent**：负责明确中长期科研目标与阶段性路线图（Phase Roadmap），定义可证伪的科学假设、实验对照矩阵与阶段验收 Gate；在**必要里程碑节点**（阶段任务准入、阶段成果验收、重大方案变更）进行科学审查与放行。
+- **实验执行 agent**：在已批准的阶段任务授权范围内拥有**工程自主权**。负责代码实现、环境适配、测试、训练、评估、测速与产物记录；具备**自我排错（Self-debugging/Self-healing）能力**，对代码 Bug、环境报错、维度匹配、显存与收敛微调等非科学变量问题自主闭环解决；在交付前执行**标准化自我审查（Self-Review）**并提交可复核证据。
+- **职责与隔离底线**：同一 agent/session 不得在同一 TASK-ID 中同时充当实验执行者和正式结果批准者。实验执行 agent 自主解决工程问题不等于有权修改科学假设、核心网络架构、数据集划分或指标口径；缺少独立研究设计 agent 审查时，阶段成果保持 `READY_FOR_REVIEW`，不得自行跨阶段放行。
+- 任务启动前必须先冻结阶段任务卡和设计审查，再开始实现或运行；不得边实验边静默修改研究问题。
 
 详细约束见：
 
@@ -49,33 +51,33 @@
 - smoke、dry-run、单元测试只证明连线、形状或局部逻辑，不证明 AP、召回、泛化或效率。
 - 研究文档不会因一次运行自动更新；只有研究设计 agent 核验原始证据并得到用户确认后，才能版本化更新。
 
-## 5. 实验任务授权
+## 5. 阶段实验任务授权
 
-每项实验必须有 `experiment_handoffs/tasks/` 下的任务卡，并配有 `research/reviews/` 下的设计审查记录。
+每项实验必须有 `experiment_handoffs/tasks/` 下的阶段任务卡，并配有 `research/reviews/` 下的设计审查记录。
 
-- `DRAFT`、`REVISION_REQUIRED`、`REJECTED`：禁止实现和正式运行。
-- `APPROVED`：可在任务卡授权范围内执行。
+- `DRAFT`、`REVISION_REQUIRED`、`REJECTED`：禁止启动正式运行。
+- `APPROVED`：可在任务卡授权范围内全面开展工程实现、自主调试与实验运行。
 - `APPROVED_WITH_CONDITIONS`：只有对应阶段的前置条件逐项满足并留下证据后，才可执行该阶段。
 
-没有任务卡时，实验执行 agent 只能做只读检查，不得修改代码、启动训练或扩大实验范围。任务卡一旦进入执行即冻结；必要变更由研究设计 agent 新增修订记录，不得追溯覆盖原设计。
+阶段任务卡一旦进入执行即冻结科学变量；非科学性的工程调优无需频繁修订任务卡，由实验 Agent 自主闭环并记录于结果报告中。
 
-## 6. 实验交接与放行
+## 6. 里程碑交接与放行
 
-实验执行 agent 结束一轮工作时，只能发送以下三类信号之一：
+实验执行 agent 结束阶段工作并完成自我审查后，只能发送以下三类信号之一：
 
-- `[EXPERIMENT_COMPLETE][<TASK-ID>][READY_FOR_REVIEW] 实验执行完成，等待研究设计审查；不得进入下一步。`
-- `[EXPERIMENT_BLOCKED][<TASK-ID>] <阻塞原因>`
-- `[EXPERIMENT_FAILED][<TASK-ID>] <失败原因>`
+- `[EXPERIMENT_COMPLETE][<TASK-ID>][READY_FOR_REVIEW] 实验执行完成并通过自我审查，等待研究设计里程碑审查；不得自行进入下一步。`
+- `[EXPERIMENT_BLOCKED][<TASK-ID>] <科学假设冲突或越权红线阻塞原因>`
+- `[EXPERIMENT_FAILED][<TASK-ID>] <无法自主恢复的致命失败原因>`
 
-只有研究设计 agent 在核对任务范围、commit、环境、数据 manifest、实际配置、原始日志、checkpoint/hash、指标、失败记录和 Gate 后，才能发送：
+研究设计 agent 在核对阶段目标、代码 commit、环境、数据、配置 dump、原始日志、checkpoint/hash、指标复算与 Gate 达成情况后，发送里程碑裁决：
 
-- `[REVIEW_PASSED][<TASK-ID>] 审查通过，可以进入 <NEXT-TASK-ID>。`
+- `[REVIEW_PASSED][<TASK-ID>] 里程碑审查通过，可以进入 <NEXT-TASK-ID>。`
 - `[REVIEW_PASSED_WITH_CONDITIONS][<TASK-ID>] 附条件通过；满足 <条件> 后可以进入 <NEXT-TASK-ID>。`
-- `[REVIEW_BLOCKED][<TASK-ID>] 未产生可审查实验；解除 <阻塞条件> 后继续当前任务，不得进入下一步。`
-- `[REVISION_REQUIRED][<TASK-ID>] 需要补充或重跑；不得进入下一步。`
-- `[REVIEW_REJECTED][<TASK-ID>] 审查不通过；停止进入下一步。`
+- `[REVIEW_BLOCKED][<TASK-ID>] 未产生可审查实验；解除 <阻塞条件> 后继续当前任务。`
+- `[REVISION_REQUIRED][<TASK-ID>] 需要补充对照或重跑；不得进入下一步。`
+- `[REVIEW_REJECTED][<TASK-ID>] 里程碑审查不通过；终止当前技术路线。`
 
-没有包含当前 TASK-ID 和下一 TASK-ID 的正式放行信号，下一任务始终视为锁定。测试通过、训练结束、commit、push 或 PR 创建均不能替代研究审查。
+没有包含当前 TASK-ID 和下一 TASK-ID 的正式放行信号，下一任务始终视为锁定。
 
 ## 7. 结果状态与表述
 
@@ -84,7 +86,7 @@
 - `PLANNED`：已有计划，尚未执行；
 - `SMOKE_ONLY`：仅完成连线、shape、fixture 或 dry-run；
 - `RUNNING`：正式运行未结束；
-- `MEASURED`：已有可定位的原始实验产物；
+- `MEASURED`：已有可定位的原始实验产物并通过自查；
 - `FAILED`：运行失败，必须保留错误和条件；
 - `BLOCKED`：缺少授权、输入或存在协议冲突；
 - `NOT_TESTED`：未测试，禁止估算补值。
@@ -95,7 +97,7 @@ FPS/latency 只有在同一 GPU、输入尺寸、batch、精度、warm-up 和计
 
 - `main` 只保存经审阅的稳定状态；除首次建库或用户明确授权外，不直接在 `main` 上开展任务。
 - 研究设计分支：`codex/research-<topic>`；实验分支：`codex/exp-<task-id>`。
-- 一条分支只处理一个明确任务。实验分支应从最新 `main` 创建，并链接任务卡、结果报告和审查记录。
+- 一条分支只处理一个明确阶段任务。实验分支应从最新 `main` 创建，并链接任务卡、结果报告和审查记录。
 - 实验执行 agent 只能提交任务卡允许的代码、配置、测试和轻量证据，不得使用 `git add -f` 提交数据、权重、checkpoint、大日志、论文 PDF 或本地环境。
 - 禁止 force-push、改写共享历史、删除他人分支/tag，或未经研究审查自行 merge。
 - commit/push 只代表工作已保存，不代表实验完成或科研结论成立。
@@ -105,6 +107,6 @@ FPS/latency 只有在同一 GPU、输入尺寸、batch、精度、warm-up 和计
 
 - 新任务首先读取 `docs/memory/START_HERE.md` 与 `docs/memory/CURRENT_STATE.md`。
 - 仓库内记忆的事实层级和更新规则见 `docs/memory/README.md`。
-- 研究设计 agent可以版本化更新 `docs/memory/**`；实验执行 agent只读，只能通过结果报告回传待审查信息。
-- 旧聊天、外部笔记和全局Codex memory仅作为待核验线索，不能覆盖AGENTS、decision、任务卡或正式研究审查。
+- 研究设计 agent 可以版本化更新 `docs/memory/**`；实验执行 agent 只读，只能通过结果报告回传待审查信息。
+- 旧聊天、外部笔记和全局 Codex memory 仅作为待核验线索，不能覆盖 AGENTS、decision、任务卡或正式研究审查。
 - 未通过研究审查的实验不得进入 `docs/memory/EVIDENCE_LEDGER.md`。

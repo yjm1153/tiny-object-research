@@ -1,4 +1,4 @@
-# 实验任务卡：<TASK-ID>
+# 阶段实验任务卡：<TASK-ID>
 
 ## Material Passport
 
@@ -7,87 +7,58 @@
 - Version:
 - Verification Status: UNVERIFIED
 
-## 1. 任务与设计审查
+## 1. 长期目标与阶段定位
 
-- Task ID:
-- 唯一研究问题：
+- 中长期研究目标：
+- 本阶段核心科学问题：
 - 可证伪假设：
 - 设计状态：`DRAFT | APPROVED | APPROVED_WITH_CONDITIONS | REVISION_REQUIRED | REJECTED`
 - 审查人：
 - 审查日期：
 - 设计审查记录：`research/reviews/<file>.md`
 - 批准条件：无 / 待填写
-- 当前允许阶段：`NONE | IMPLEMENTATION | SMOKE | FORMAL_RUN`
-- 下一任务：`LOCKED`
+- 当前阶段许可：`NONE | IMPLEMENTATION_AND_DEBUG | FORMAL_RUN_MATRIX`
+- 下一阶段：`LOCKED`
 
-## 2. 实验变量与混杂
+## 2. 实验变量与科学对照
 
-- 独立变量：
-- 主要因变量：
-- 次要/诊断指标：
-- 固定控制变量：
-- 潜在混杂与处理：
+- 独立变量（核心改动）：
+- 主要因变量（主评估指标）：
+- 次要/诊断指标（如极小尺度分档 AP/AR）：
+- 固定控制变量（Backbone、Neck、Anchor/Point 等）：
+- 必需科学对照组（Baseline、Spatial-only 控制、消融配置）：
 
-## 3. 固定输入
+## 3. 固定输入与科学红线
 
-- 数据集、版本与 split：
+- 数据集、版本与 split（严禁泄漏）：
 - 基础模型与 commit/tag：
 - 初始化权重与 SHA-256：
-- 输入尺寸 / batch / seed：
-- 优化器、训练预算与增强：
-- 硬件与软件环境：
+- 核心模型拓扑结构约束：
+- 科学禁区（不可越权修改项）：
 
-## 4. 允许修改
+## 4. 允许工程自主调优范围
 
-- 待填写
+- 代码语法/接口适配/Bug 自愈修复；
+- 显存适配（如 batch size、梯度累积步数）；
+- 训练稳定性微调（如 gradient clipping、warmup 步数）；
+- 单元测试与 Smoke 测试脚本编写。
 
-除本节列出的路径外均只读。`docs/**`、`research/**`、`governance/**` 和任务卡永不属于实验允许范围。
+## 5. 预期产物与交付标准
 
-## 5. 必须保持不变
+- 代码/配置 commit：
+- 完整单元测试与 Smoke 脚本：
+- 实验原始日志与指标 dump：`outputs/<TASK-ID>/**`
+- checkpoint 及 SHA-256：
+- 结果与自我审查报告：`experiment_handoffs/results/<TASK-ID>.md`
 
-- 待填写
+## 6. 阶段 Gate 与停止条件
 
-## 6. 执行步骤与命令
+- 进入正式运行的自测 Gate（Smoke/Shape/单测通过）：
+- 阶段成功 Gate（主指标/分档指标提升目标）：
+- 阶段失败与停止条件（明显无增益/严重发散）：
+- 触发立即阻断（需研究介入）条件：
 
-1. 待填写
-
-```text
-<exact commands before execution>
-```
-
-## 7. 必需对照与指标
-
-- 对照：
-- 主指标：
-- 次指标：
-- 统计/多种子汇总：
-- 效率协议：
-
-## 8. 预期产物
-
-- 代码/配置：
-- 测试：
-- 环境与数据 manifest：
-- 日志：
-- checkpoint：
-- 指标与汇总：
-- 结果报告：`experiment_handoffs/results/<TASK-ID>.md`
-
-## 9. Gate、失败与停止条件
-
-- 进入 smoke 的 Gate：
-- 进入正式运行的 Gate：
-- 成功条件：
-- 失败条件：
-- 立即停止并回传：
-
-## 10. 禁止外推
-
-本任务不能单独证明：
-
-- 待填写
-
-## 11. 最终授权
+## 7. 最终授权
 
 - 研究设计 agent 签名：
 - 法定设计状态：
