@@ -40,7 +40,7 @@
 | 任务 / 模型 | 架构描述 | 状态 | 12 轮最终 AP | AP50 | AP75 | 证据边界 |
 |---|---|---|---:|---:|---:|---|
 | **PRT-001 B0 seed 0** | FCOS-R50-FPN P3–P7 | `MEASURED / LIMITED` | `0.0160` | `0.0540` | `0.0060` | 仅普通 COCO 指标 |
-| **PRT-001 B1 seed 0** | FCOS-R50-FPN P2–P6 | `MEASURED / LIMITED` | `0.0440` | `0.1210` | `0.0300` | 普通 AP 配对差 `+0.0280`，待 APvt/ARvt 和三种子确认 |
+| **PRT-001 B1 seed 0** | FCOS-R50-FPN P2–P6 | `MEASURED / LIMITED` | `0.0440` | `0.1210` | `0.0300` | 普通 AP 配对差 `+0.0280`，待 APvt/ARvt 和独立 seed 确认 |
 | **PRT-002 PDD v1 seed 0** | 当前 PDD + P2–P6 | `MEASURED / NEGATIVE` | `0.0000` | `0.0000` | `0.0000` | 失败归因未验证 |
 
 B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只适用于 seed 0 和当前实际训练配方，不能升级为 2–8 px 漏检改善、稳定性或 PRTiny 有效性的结论。
@@ -49,7 +49,7 @@ B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只�
 
 - `APvt/ARvt` 改善：`NOT_TESTED`；
 - 2–4、4–6、6–8 px 漏检下降：`NOT_TESTED`；
-- P2 跨 seed 稳定：`NOT_TESTED`；
+- P2 在独立确认 seed 上稳定：`NOT_TESTED`；
 - PRTiny 有效：`NOT_TESTED`；
 - PDD 有效：`NOT_ESTABLISHED`；
 - PDD v1 因 `frozen_stages=1` 失败：`UNVERIFIED EXPLANATION`；
@@ -57,7 +57,7 @@ B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只�
 
 ## 7. 当前审查结论
 
-- PRT-001：`REVISION_REQUIRED`；现有 seed-0 普通 AP 可保留，但未满足 APvt/ARvt、三种子和复算证据要求。
+- PRT-001：`REVISION_REQUIRED`；现有 seed-0 普通 AP 可保留，但尚无 APvt/ARvt 和独立确认 seed。按 CCF-C 分层证据标准先补 seed 1，结果歧义时才补 seed 2。
 - PRT-002：`REVISION_REQUIRED`；PDD v1 零 AP 是负测量，必需消融、主指标和受控根因干预均缺失。
 - PRT-003/SSR：`LOCKED`。
 
@@ -66,16 +66,17 @@ B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只�
 - `research/reviews/2026-08-23-PRT-001-result-review-2.md`
 - `research/reviews/2026-08-23-PRT-002-result-review-2.md`
 - `docs/decisions/DR-003-evidence-completion-before-method-progression.md`
+- `docs/decisions/DR-004-ccf-c-paced-evidence-standard.md`
 
 ## 8. 当前唯一可执行阶段任务
 
 `PRT-001-A1`：极小目标基线证据补全与可复现确认。
 
 - 任务卡：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`
-- 设计审查：`research/reviews/2026-08-23-PRT-001-A1-design-review-1.md`
+- 设计审查：`research/reviews/2026-08-23-PRT-001-A1-design-review-2.md`
 - 状态：`APPROVED_WITH_CONDITIONS`
-- 初始许可：评估器补全、官方 parity、既有 seed-0 证据恢复与 hash；
-- Gate E/P 通过后：允许实验 agent 在同一任务内补 B0/B1 seeds 1/2；
+- 初始许可：评估器补全、最小正确性测试、既有 seed-0 证据恢复与关键 hash；
+- Gate E/P 通过后：先补 B0/B1 seed 1；仅在符号冲突、阈值灰区或运行异常时补 seed 2；
 - 实验 agent 可调用子研究/子实验 agent 自主闭环工程问题，但不得修改任务卡、科学变量或发出 `REVIEW_*`。
 
 在 PRT-001-A1 正式通过前，不运行 PDD v2、SSR、NWD 或泛化实验。
@@ -84,8 +85,8 @@ B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只�
 
 - 研究简述：`docs/research_brief_v0.1.md`
 - 总约束：`AGENTS.md`
-- 治理与证据决策：`docs/decisions/DR-001-role-separated-governance.md`、`docs/decisions/DR-003-evidence-completion-before-method-progression.md`
-- 当前任务卡与设计审查：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`、`research/reviews/2026-08-23-PRT-001-A1-design-review-1.md`
+- 治理与证据决策：`docs/decisions/DR-001-role-separated-governance.md`、`docs/decisions/DR-003-evidence-completion-before-method-progression.md`、`docs/decisions/DR-004-ccf-c-paced-evidence-standard.md`
+- 当前任务卡与设计审查：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`（v1.1）、`research/reviews/2026-08-23-PRT-001-A1-design-review-2.md`
 - 当前结果审查：`research/reviews/2026-08-23-PRT-001-result-review-2.md`、`research/reviews/2026-08-23-PRT-002-result-review-2.md`
 
-若旧的 `2026-08-23-PRT-001-result-review-final.md` 与本快照或 DR-003 冲突，以较新的 DR-003 和 result-review-2 为准；旧记录保留用于审计，不删除。
+若旧的 `2026-08-23-PRT-001-result-review-final.md`、PRT-001-A1 v1.0 或 design-review-1 与本快照冲突，以 DR-004、任务卡 v1.1 和 design-review-2 为准；旧记录保留用于审计，不删除。

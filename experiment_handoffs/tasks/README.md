@@ -11,5 +11,6 @@
 - 当前唯一可执行阶段：`PRT-001-A1`
 - 任务卡：`PRT-001-amendment-1-evidence-completion.md`
 - 设计状态：`APPROVED_WITH_CONDITIONS`
-- 初始授权：评估器验证、既有 seed-0 证据恢复与 hash；Gate E/P 通过后可在同一任务内补 B0/B1 seeds 1/2。
+- 当前版本：v1.1，采用 CCF-C 分层证据标准。
+- 初始授权：评估器验证、既有 seed-0 证据恢复与关键 hash；Gate E/P 通过后先补 B0/B1 seed 1，仅在预注册歧义/异常条件触发时补 seed 2。
 - `PRT-002-A1`、`PRT-003`、PDD v2、SSR 与 NWD 均保持锁定。
