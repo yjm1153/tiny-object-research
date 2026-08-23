@@ -1,10 +1,11 @@
 # 副线研究当前状态
 
 - Snapshot date: 2026-08-23
-- Snapshot status: `MEASURED (PRT-001 COMPLETED)`
-- Workspace: `/root/tiny-object-research`
-- Current branch: `codex/exp-prt-001`
-- Remote status: `https://github.com/yjm1153/tiny-object-research.git` (已关联并持续同步)
+- Snapshot status: `MEASURED / REVISION_REQUIRED`
+- Workspace: `D:\研究\tiny-object-research`
+- Current research branch: `codex/research-evidence-audit`
+- Reviewed experiment commit: `3af14bdfb31705bcb31a1b69b7f55d9bb5aa3439`
+- Remote: `https://github.com/yjm1153/tiny-object-research.git`
 
 ## 1. 项目身份
 
@@ -34,18 +35,57 @@
 - 硬件环境：NVIDIA GeForce RTX 4090 D (24GB VRAM)。
 - 优化策略：SGD (lr=0.005, batch_size=4, momentum=0.9, 12 epochs)。
 
-## 5. 实验进度与实测数据
+## 5. 当前可接受的有限测量
 
-| 任务 / 模型 | 架构描述 | 状态 | 12 轮最终 AP | 12 轮 AP50 | 12 轮 AP75 | 核心结论 |
-|---|---|---|---|---|---|---|
-| **PRT-001 B0** | FCOS-R50-FPN (P3–P7, stride 8~128) | `COMPLETED` | **`0.0160`** | **`0.0540`** | `0.0060` | 标准 FCOS 在极小目标上的基线锚点 |
-| **PRT-001 B1** | FCOS-R50-FPN (P2–P6, stride 4~64) | `COMPLETED` | **`0.0440`** | **`0.1210`** | **`0.0300`** | **金字塔下移实现 +175.0% 暴涨，确立为黄金基线** |
-| **PRT-002 PDD (v1)** | FCOS-R50-PDD (P2–P6) | `COMPLETED` | `0.0000` | `0.0000` | `0.0000` | 冻结 Layer 1 阻碍新特征自适应，已定位根因待 v2 解冻微调 |
+| 任务 / 模型 | 架构描述 | 状态 | 12 轮最终 AP | AP50 | AP75 | 证据边界 |
+|---|---|---|---:|---:|---:|---|
+| **PRT-001 B0 seed 0** | FCOS-R50-FPN P3–P7 | `MEASURED / LIMITED` | `0.0160` | `0.0540` | `0.0060` | 仅普通 COCO 指标 |
+| **PRT-001 B1 seed 0** | FCOS-R50-FPN P2–P6 | `MEASURED / LIMITED` | `0.0440` | `0.1210` | `0.0300` | 普通 AP 配对差 `+0.0280`，待 APvt/ARvt 和三种子确认 |
+| **PRT-002 PDD v1 seed 0** | 当前 PDD + P2–P6 | `MEASURED / NEGATIVE` | `0.0000` | `0.0000` | `0.0000` | 失败归因未验证 |
 
-## 6. 当前权威文件
+B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只适用于 seed 0 和当前实际训练配方，不能升级为 2–8 px 漏检改善、稳定性或 PRTiny 有效性的结论。
+
+## 6. 当前不能接受为研究事实的观点
+
+- `APvt/ARvt` 改善：`NOT_TESTED`；
+- 2–4、4–6、6–8 px 漏检下降：`NOT_TESTED`；
+- P2 跨 seed 稳定：`NOT_TESTED`；
+- PRTiny 有效：`NOT_TESTED`；
+- PDD 有效：`NOT_ESTABLISHED`；
+- PDD v1 因 `frozen_stages=1` 失败：`UNVERIFIED EXPLANATION`；
+- SSR、泛化、FPS/latency：`NOT_TESTED`。
+
+## 7. 当前审查结论
+
+- PRT-001：`REVISION_REQUIRED`；现有 seed-0 普通 AP 可保留，但未满足 APvt/ARvt、三种子和复算证据要求。
+- PRT-002：`REVISION_REQUIRED`；PDD v1 零 AP 是负测量，必需消融、主指标和受控根因干预均缺失。
+- PRT-003/SSR：`LOCKED`。
+
+正式审查：
+
+- `research/reviews/2026-08-23-PRT-001-result-review-2.md`
+- `research/reviews/2026-08-23-PRT-002-result-review-2.md`
+- `docs/decisions/DR-003-evidence-completion-before-method-progression.md`
+
+## 8. 当前唯一可执行阶段任务
+
+`PRT-001-A1`：极小目标基线证据补全与可复现确认。
+
+- 任务卡：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`
+- 设计审查：`research/reviews/2026-08-23-PRT-001-A1-design-review-1.md`
+- 状态：`APPROVED_WITH_CONDITIONS`
+- 初始许可：评估器补全、官方 parity、既有 seed-0 证据恢复与 hash；
+- Gate E/P 通过后：允许实验 agent 在同一任务内补 B0/B1 seeds 1/2；
+- 实验 agent 可调用子研究/子实验 agent 自主闭环工程问题，但不得修改任务卡、科学变量或发出 `REVIEW_*`。
+
+在 PRT-001-A1 正式通过前，不运行 PDD v2、SSR、NWD 或泛化实验。
+
+## 9. 当前权威文件
 
 - 研究简述：`docs/research_brief_v0.1.md`
-- 治理决策：`docs/decisions/DR-001-role-separated-governance.md`
 - 总约束：`AGENTS.md`
-- PRT-001 结项审查：`research/reviews/2026-08-23-PRT-001-result-review-final.md`
-- PRT-002 任务卡与报告：`experiment_handoffs/tasks/PRT-002-pdd-module-and-ablation.md` & `experiment_handoffs/results/PRT-002-pdd-module.md`
+- 治理与证据决策：`docs/decisions/DR-001-role-separated-governance.md`、`docs/decisions/DR-003-evidence-completion-before-method-progression.md`
+- 当前任务卡与设计审查：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`、`research/reviews/2026-08-23-PRT-001-A1-design-review-1.md`
+- 当前结果审查：`research/reviews/2026-08-23-PRT-001-result-review-2.md`、`research/reviews/2026-08-23-PRT-002-result-review-2.md`
+
+若旧的 `2026-08-23-PRT-001-result-review-final.md` 与本快照或 DR-003 冲突，以较新的 DR-003 和 result-review-2 为准；旧记录保留用于审计，不删除。
