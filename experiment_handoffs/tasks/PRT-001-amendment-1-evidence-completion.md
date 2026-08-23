@@ -208,3 +208,12 @@ Gate B/C 通过后，实验 agent 仍只可发送 `READY_FOR_REVIEW`。研究设
 - 法定设计状态：`APPROVED_WITH_CONDITIONS`
 - 允许启动：WP0/WP1/WP2；Gate E/P 后启动 seed 1；满足第 8 节条件时启动 seed 2；随后完成 WP4。
 - 未经新审查禁止：PDD v2、SSR、NWD、额外增强、test 调参和跨阶段放行。
+
+## 11. Git 协同检查点
+
+- 开工前：实验 agent 执行 `git fetch origin`，确认研究设计交接指定的完整 commit 可从远端定位，并报告实验分支、base SHA、HEAD、dirty 状态；
+- 实现完成后：提交 evaluator、配置、测试和运行入口，push `codex/exp-prt-001-a1`，再开始正式高成本运行；
+- 每个 Gate 后：Gate E/P、seed-1 结果、条件 seed-2 结果分别形成轻量 commit 并及时 push，不等待整个任务结束后一次性同步；
+- 结束/失败/阻塞前：先提交并 push 结果报告、summary、gate report 和证据索引，再发送法定实验信号；
+- push 失败时：发送 `PUSH_BLOCKED`，附本地 commit、目标远端和错误；不得把本地 commit 视为正式交接；
+- 研究设计 agent 只审查远端可见 commit。未经明确授权不得 force-push、merge、改写历史或删除分支。

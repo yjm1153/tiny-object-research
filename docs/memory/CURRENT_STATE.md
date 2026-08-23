@@ -81,6 +81,8 @@ B1 相对 B0 的普通 COCO AP 提升是值得继续验证的强线索，但只�
 
 在 PRT-001-A1 正式通过前，不运行 PDD v2、SSR、NWD 或泛化实验。
 
+Git 是研究设计与实验执行的正式协同面。任务卡/审查、运行前实现、Gate 结果和最终交接均须在发送信号前 commit 并 push；接收方开工前必须 fetch 并核对指定完整 SHA。正式审查只接受远端可见的实验 commit。
+
 ## 9. 当前权威文件
 
 - 研究简述：`docs/research_brief_v0.1.md`
