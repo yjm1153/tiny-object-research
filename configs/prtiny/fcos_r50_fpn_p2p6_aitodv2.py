@@ -1,6 +1,6 @@
 # Baseline B1: FCOS-R50-FPN-P2 下移五层金字塔 (P2-P6, stride 4-64)
 # 数据集: AI-TOD-v2
-# 约束说明: 保持与 B0 严格相同的 Head 深度 (4 convs)、通道数 (256)、优化器与 12 epochs 预算，仅下移 FPN 提取层级与回归范围
+# 优化配置: batch_size=4 + lr=0.005 + num_workers=8 + val_interval=4 (FP32 数值极稳)
 
 _base_ = ['./aitodv2.py']
 
@@ -22,15 +22,15 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=True),
         norm_eval=True,
         style='pytorch',
-        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50')
+        init_cfg=dict(type='Pretrained', checkpoint='data/pretrained/resnet50_msra-5891d200.pth')
     ),
     neck=dict(
         type='FPN',
         in_channels=[256, 512, 1024, 2048],
         out_channels=256,
-        start_level=0,  # 下移至 Stage 0 (res2 输出，即 P2 来源)
+        start_level=0,  # 输出 P2, P3, P4, P5, P6
         add_extra_convs='on_output',
-        num_outs=5,     # 输出 P2, P3, P4, P5, P6 (保持 5 层金字塔)
+        num_outs=5,
         relu_before_extra_convs=True
     ),
     bbox_head=dict(
@@ -39,8 +39,8 @@ model = dict(
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
-        strides=[4, 8, 16, 32, 64],  # 金字塔 stride 同步下移
-        regress_ranges=((-1, 32), (32, 64), (64, 128), (128, 256), (256, 100000000.0)),  # 回归范围对齐下移
+        strides=[4, 8, 16, 32, 64],
+        regress_ranges=((-1, 32), (32, 64), (64, 128), (128, 256), (256, 100000000.0)),
         loss_cls=dict(
             type='FocalLoss',
             use_sigmoid=True,
@@ -64,10 +64,10 @@ model = dict(
     )
 )
 
-# 训练与优化器设置 (与 B0 完全一致: 12 epochs, 单卡 batch_size=2, lr=0.0025, 8/11 epoch 衰减)
+# 满血训练优化器: FP32 严格数值稳定性 + lr=0.005 + 梯度裁剪
 optim_wrapper = dict(
     type='OptimWrapper',
-    optimizer=dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001),
+    optimizer=dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001),
     paramwise_cfg=dict(bias_lr_mult=2.0, bias_decay_mult=0.0),
     clip_grad=dict(max_norm=35, norm_type=2)
 )
@@ -78,7 +78,7 @@ param_scheduler = [
         start_factor=1.0 / 3,
         by_epoch=False,
         begin=0,
-        end=500
+        end=250
     ),
     dict(
         type='MultiStepLR',
@@ -90,7 +90,7 @@ param_scheduler = [
     )
 ]
 
-train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=12, val_interval=1)
+train_cfg = dict(type='EpochBasedTrainLoop', max_epochs=12, val_interval=4)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 

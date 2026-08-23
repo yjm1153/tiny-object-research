@@ -1,8 +1,10 @@
-# Baseline B0: FCOS-R50-FPN 标准五层金字塔 (P3-P7, stride 8-128)
+# Model: FCOS-R50-PDD-P2 (PDD 局部细节保留下采样增强模型)
 # 数据集: AI-TOD-v2
 # 优化配置: batch_size=4 + lr=0.005 + num_workers=8 + val_interval=4 (FP32 数值极稳)
 
 _base_ = ['./aitodv2.py']
+
+custom_imports = dict(imports=['prtiny.models'], allow_failed_imports=False)
 
 model = dict(
     type='FCOS',
@@ -14,7 +16,7 @@ model = dict(
         pad_size_divisor=32
     ),
     backbone=dict(
-        type='ResNet',
+        type='ResNetWithPDD',
         depth=50,
         num_stages=4,
         out_indices=(0, 1, 2, 3),
@@ -22,13 +24,14 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=True),
         norm_eval=True,
         style='pytorch',
-        init_cfg=dict(type='Pretrained', checkpoint='data/pretrained/resnet50_msra-5891d200.pth')
+        init_cfg=dict(type='Pretrained', checkpoint='data/pretrained/resnet50_msra-5891d200.pth'),
+        pdd_stages=(0, 1)
     ),
     neck=dict(
         type='FPN',
         in_channels=[256, 512, 1024, 2048],
         out_channels=256,
-        start_level=1,
+        start_level=0,  # 输出 P2, P3, P4, P5, P6
         add_extra_convs='on_output',
         num_outs=5,
         relu_before_extra_convs=True
@@ -39,8 +42,8 @@ model = dict(
         in_channels=256,
         stacked_convs=4,
         feat_channels=256,
-        strides=[8, 16, 32, 64, 128],
-        regress_ranges=((-1, 64), (64, 128), (128, 256), (256, 512), (512, 100000000.0)),
+        strides=[4, 8, 16, 32, 64],
+        regress_ranges=((-1, 32), (32, 64), (64, 128), (128, 256), (256, 100000000.0)),
         loss_cls=dict(
             type='FocalLoss',
             use_sigmoid=True,

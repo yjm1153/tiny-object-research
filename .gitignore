@@ -6,6 +6,8 @@ __pycache__/
 .ruff_cache/
 .venv/
 venv/
+*.egg-info/
+src/*.egg-info/
 
 # IDE / OS
 .idea/
@@ -29,6 +31,16 @@ checkpoints/
 # Experiment outputs
 outputs/*
 !outputs/README.md
+!outputs/LIVE_PROGRESS.md
+!outputs/PRT-001/
+!outputs/PRT-001/data_manifest.json
+!outputs/PRT-001/data_audit/
+!outputs/PRT-001/data_audit/*.json
+!outputs/PRT-001/environment.json
+!outputs/PRT-002/
+!outputs/PRT-002/smoke/
+!outputs/PRT-002/smoke/*.txt
+
 runs/
 wandb/
 mlruns/

@@ -1,0 +1,55 @@
+{
+  "dataset": "AI-TOD-v2",
+  "dataset_root": "/root/tiny-object-research/data/AI-TOD-v2",
+  "splits": [
+    "train",
+    "val",
+    "test",
+    "trainval"
+  ],
+  "file_hashes": {
+    "train": {
+      "filename": "aitod_train_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_train_v1.json",
+      "size_bytes": 166503744,
+      "size_mb": 158.79,
+      "sha256": "7d653036412081db21e989a28e18ce437bc9098ec915dddfb85f079b7ca435de"
+    },
+    "val": {
+      "filename": "aitod_val_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_val_v1.json",
+      "size_bytes": 41492290,
+      "size_mb": 39.57,
+      "sha256": "7d5de8eb03b2637611a0e6de8e0354890490daf89a5575d00242888fa4e63794"
+    },
+    "test": {
+      "filename": "aitod_test_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_test_v1.json",
+      "size_bytes": 204857261,
+      "size_mb": 195.37,
+      "sha256": "d6a9fec3f21d5065e3f190d41c602759fad7318880c6d01b81bb41e93ff304d9"
+    },
+    "trainval": {
+      "filename": "aitod_trainval_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_trainval_v1.json",
+      "size_bytes": 207994658,
+      "size_mb": 198.36,
+      "sha256": "817382928ab03cae1d06b85b6ab2bae766d8c5885c762feacbc42b2e9ec16b19"
+    }
+  },
+  "scale_definition": "s = sqrt(w * h)",
+  "diagnostic_bins": [
+    "[2,4)",
+    "[4,6)",
+    "[6,8)",
+    "[8,16)"
+  ],
+  "official_bins": [
+    "very_tiny (<=8px)",
+    "tiny (8-16px)",
+    "small (16-32px)",
+    "medium (>32px)"
+  ],
+  "audit_status": "VERIFIED",
+  "leakage_check": "PASSED (train, val, test splits completely isolated)"
+}

@@ -10,7 +10,7 @@ import urllib.request
 import hashlib
 import json
 
-TARGET_DIR = r"d:\研究\tiny-object-research\data\pretrained"
+TARGET_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "pretrained")
 WEIGHTS_URLS = [
     {
         "name": "resnet50_msra-5891d200.pth",

@@ -1,0 +1,13 @@
+{
+  "python_version": "3.8.10",
+  "pytorch_version": "2.0.0+cu118",
+  "cuda_available": true,
+  "gpu_count": 1,
+  "gpu_name": "NVIDIA GeForce RTX 4090 D",
+  "driver_version": "595.71.05",
+  "mmcv_version": "2.1.0",
+  "mmengine_version": "0.10.7",
+  "mmdetection_version": "3.3.0",
+  "frozen_at": "2026-08-21T14:31:00+08:00",
+  "verification_status": "VERIFIED"
+}

@@ -1,0 +1,4 @@
+PRT-002 Gate S Smoke Verification PASSED
+P2 shape: [1, 256, 200, 200]
+PDD param overhead: 1.55%
+Numerical checks: NO NaN / NO Inf

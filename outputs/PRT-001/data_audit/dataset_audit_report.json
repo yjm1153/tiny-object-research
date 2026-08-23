@@ -1,0 +1,206 @@
+{
+  "dataset_name": "AI-TOD-v2",
+  "dataset_root": "/root/tiny-object-research/data/AI-TOD-v2",
+  "audit_timestamp": "2026-08-21T13:36:00+08:00",
+  "status": "VERIFIED",
+  "summary": {
+    "total_disk_images": 14018,
+    "splits_found": [
+      "train",
+      "val",
+      "test",
+      "trainval"
+    ],
+    "categories_check": "PASSED",
+    "leakage_check": "PASSED",
+    "conservation_check": "PASSED"
+  },
+  "file_manifest": {
+    "train": {
+      "filename": "aitod_train_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_train_v1.json",
+      "size_bytes": 166503744,
+      "size_mb": 158.79,
+      "sha256": "7d653036412081db21e989a28e18ce437bc9098ec915dddfb85f079b7ca435de"
+    },
+    "val": {
+      "filename": "aitod_val_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_val_v1.json",
+      "size_bytes": 41492290,
+      "size_mb": 39.57,
+      "sha256": "7d5de8eb03b2637611a0e6de8e0354890490daf89a5575d00242888fa4e63794"
+    },
+    "test": {
+      "filename": "aitod_test_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_test_v1.json",
+      "size_bytes": 204857261,
+      "size_mb": 195.37,
+      "sha256": "d6a9fec3f21d5065e3f190d41c602759fad7318880c6d01b81bb41e93ff304d9"
+    },
+    "trainval": {
+      "filename": "aitod_trainval_v1.json",
+      "path": "data/AI-TOD-v2/annotations/aitod_trainval_v1.json",
+      "size_bytes": 207994658,
+      "size_mb": 198.36,
+      "sha256": "817382928ab03cae1d06b85b6ab2bae766d8c5885c762feacbc42b2e9ec16b19"
+    }
+  },
+  "split_statistics": {
+    "train": {
+      "images_count": 11214,
+      "annotations_count": 282580,
+      "categories": [
+        "airplane",
+        "bridge",
+        "storage-tank",
+        "ship",
+        "swimming-pool",
+        "vehicle",
+        "person",
+        "wind-mill"
+      ],
+      "category_distribution": {
+        "airplane": 623,
+        "bridge": 512,
+        "storage-tank": 5269,
+        "ship": 13539,
+        "swimming-pool": 293,
+        "vehicle": 248042,
+        "person": 14126,
+        "wind-mill": 176
+      },
+      "diagnostic_scale_bins": {
+        "sub_2px": 7,
+        "2_4px": 994,
+        "4_6px": 6174,
+        "6_8px": 26387,
+        "8_16px": 205191,
+        "above_16px": 43827
+      },
+      "official_scale_bins": {
+        "very_tiny": 36732,
+        "tiny": 204513,
+        "small": 35613,
+        "medium": 5722
+      },
+      "invalid_boxes": 0
+    },
+    "val": {
+      "images_count": 2804,
+      "annotations_count": 70424,
+      "categories": [
+        "airplane",
+        "bridge",
+        "storage-tank",
+        "ship",
+        "swimming-pool",
+        "vehicle",
+        "person",
+        "wind-mill"
+      ],
+      "category_distribution": {
+        "airplane": 170,
+        "bridge": 140,
+        "storage-tank": 2477,
+        "ship": 3791,
+        "swimming-pool": 34,
+        "vehicle": 59904,
+        "person": 3841,
+        "wind-mill": 67
+      },
+      "diagnostic_scale_bins": {
+        "sub_2px": 1,
+        "2_4px": 459,
+        "4_6px": 2521,
+        "6_8px": 6984,
+        "8_16px": 50036,
+        "above_16px": 10423
+      },
+      "official_scale_bins": {
+        "very_tiny": 10784,
+        "tiny": 49724,
+        "small": 8600,
+        "medium": 1316
+      },
+      "invalid_boxes": 0
+    },
+    "test": {
+      "images_count": 14018,
+      "annotations_count": 347617,
+      "categories": [
+        "airplane",
+        "bridge",
+        "storage-tank",
+        "ship",
+        "swimming-pool",
+        "vehicle",
+        "person",
+        "wind-mill"
+      ],
+      "category_distribution": {
+        "airplane": 745,
+        "bridge": 689,
+        "storage-tank": 5860,
+        "ship": 17633,
+        "swimming-pool": 292,
+        "vehicle": 306665,
+        "person": 15443,
+        "wind-mill": 290
+      },
+      "diagnostic_scale_bins": {
+        "sub_2px": 9,
+        "2_4px": 1418,
+        "4_6px": 8647,
+        "6_8px": 32049,
+        "8_16px": 252997,
+        "above_16px": 52497
+      },
+      "official_scale_bins": {
+        "very_tiny": 45748,
+        "tiny": 252549,
+        "small": 42333,
+        "medium": 6987
+      },
+      "invalid_boxes": 0
+    },
+    "trainval": {
+      "images_count": 14018,
+      "annotations_count": 353004,
+      "categories": [
+        "airplane",
+        "bridge",
+        "storage-tank",
+        "ship",
+        "swimming-pool",
+        "vehicle",
+        "person",
+        "wind-mill"
+      ],
+      "category_distribution": {
+        "airplane": 793,
+        "bridge": 652,
+        "storage-tank": 7746,
+        "ship": 17330,
+        "swimming-pool": 327,
+        "vehicle": 307946,
+        "person": 17967,
+        "wind-mill": 243
+      },
+      "diagnostic_scale_bins": {
+        "sub_2px": 8,
+        "2_4px": 1453,
+        "4_6px": 8695,
+        "6_8px": 33371,
+        "8_16px": 255227,
+        "above_16px": 54250
+      },
+      "official_scale_bins": {
+        "very_tiny": 47516,
+        "tiny": 254237,
+        "small": 44213,
+        "medium": 7038
+      },
+      "invalid_boxes": 0
+    }
+  }
+}
