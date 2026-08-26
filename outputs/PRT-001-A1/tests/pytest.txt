@@ -1,0 +1,37 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.10, pytest-8.3.5, pluggy-1.5.0 -- /root/miniconda3/bin/python
+cachedir: .pytest_cache
+rootdir: /root/tiny-object-research
+configfile: pytest.ini
+plugins: anyio-3.6.2
+collecting ... collected 17 items
+
+tests/test_dataset_audit.py::test_data_manifest_integrity PASSED         [  5%]
+tests/test_dataset_audit.py::test_aitodv2_config_classes PASSED          [ 11%]
+tests/test_fcos_pyramid.py::test_fcos_b0_config PASSED                   [ 17%]
+tests/test_fcos_pyramid.py::test_fcos_b1_config PASSED                   [ 23%]
+tests/test_fcos_pyramid.py::test_b0_b1_fairness_alignment PASSED         [ 29%]
+tests/test_pdd.py::test_space_to_depth_shape_and_lossless PASSED         [ 35%]
+tests/test_pdd.py::test_pdd_forward_and_backward PASSED                  [ 41%]
+tests/test_pdd.py::test_pdd_split_ratios PASSED                          [ 47%]
+tests/test_pdd.py::test_pdd_parameter_overhead PASSED                    [ 52%]
+tests/test_tiny_evaluator.py::test_effective_scale_formula PASSED        [ 58%]
+tests/test_tiny_evaluator.py::test_diagnostic_bins_boundaries PASSED     [ 64%]
+tests/test_tiny_evaluator.py::test_scale_bins_conservation PASSED        [ 70%]
+tests/test_tiny_evaluator.py::test_exact_2_8px_scale_boundaries PASSED   [ 76%]
+tests/test_tiny_evaluator.py::test_pipeline_inverse_coordinate_mapping PASSED [ 82%]
+tests/test_tiny_evaluator.py::test_perfect_and_empty_predictions PASSED  [ 88%]
+tests/test_tiny_evaluator.py::test_prediction_sensitivity PASSED         [ 94%]
+tests/test_tiny_evaluator.py::test_repeatability PASSED                  [100%]
+
+=============================== warnings summary ===============================
+../miniconda3/lib/python3.8/site-packages/jupyter_client/connect.py:20
+  /root/miniconda3/lib/python3.8/site-packages/jupyter_client/connect.py:20: DeprecationWarning: Jupyter is migrating its paths to use standard platformdirs
+  given by the platformdirs library.  To remove this warning and
+  see the appropriate new directories, set the environment variable
+  `JUPYTER_PLATFORM_DIRS=1` and then run `jupyter --paths`.
+  The use of platformdirs will be the default in `jupyter_core` v6
+    from jupyter_core.paths import jupyter_data_dir, jupyter_runtime_dir, secure_write
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 17 passed, 1 warning in 3.49s =========================

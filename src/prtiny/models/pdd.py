@@ -80,6 +80,21 @@ class PDDDownsample(nn.Module):
             nn.BatchNorm2d(out_channels) if norm_cfg else nn.Identity(),
             nn.ReLU(inplace=True)
         )
+        self.init_weights()
+
+    def init_weights(self):
+        """权重保真与数值稳定初始化"""
+        if isinstance(self.dw_conv, nn.Conv2d):
+            nn.init.kaiming_normal_(self.dw_conv.weight, mode='fan_out', nonlinearity='relu')
+        if isinstance(self.bn_dw, nn.BatchNorm2d):
+            nn.init.constant_(self.bn_dw.weight, 1.0)
+            nn.init.constant_(self.bn_dw.bias, 0.0)
+        for m in self.fuse_conv.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1.0)
+                nn.init.constant_(m.bias, 0.0)
 
     def forward(self, x):
         # 1. 通道拆分
@@ -127,6 +142,11 @@ if MMDET_AVAILABLE:
             if 0 in pdd_stages:
                 # 替换传统 maxpool 为 PDDDownsample (64 -> 64)
                 self.maxpool = PDDDownsample(in_channels=64, out_channels=64, split_ratio=0.5)
+
+        def init_weights(self):
+            super().init_weights()
+            if hasattr(self, 'maxpool') and isinstance(self.maxpool, PDDDownsample):
+                self.maxpool.init_weights()
 
         def forward(self, x):
             return super().forward(x)

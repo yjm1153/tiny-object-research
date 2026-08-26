@@ -40,6 +40,14 @@ outputs/*
 !outputs/PRT-002/
 !outputs/PRT-002/smoke/
 !outputs/PRT-002/smoke/*.txt
+!outputs/PRT-001-A1/
+!outputs/PRT-001-A1/summary.csv
+!outputs/PRT-001-A1/gate_report.json
+!outputs/PRT-001-A1/tests/
+!outputs/PRT-001-A1/tests/*.txt
+!outputs/PRT-001-A1/evaluator/
+!outputs/PRT-001-A1/evaluator/*.json
+!outputs/PRT-001-A1/**/metrics.json
 
 runs/
 wandb/
