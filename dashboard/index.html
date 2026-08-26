@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>PRTiny 研究进度控制台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">TINY OBJECT RESEARCH / EVIDENCE CONSOLE</p>
+        <h1>PRTiny 研究进度控制台</h1>
+        <p class="lede">从版本化任务卡、正式研究审查和受审轻量证据生成。面板展示证据边界，不把计划、smoke 或实验自评误写成结论。</p>
+      </div>
+      <div class="hero-actions">
+        <span id="freshness" class="freshness">读取中</span>
+        <button id="copy-command" type="button">复制更新命令</button>
+      </div>
+    </header>
+
+    <section id="alert" class="alert" hidden></section>
+    <section id="kpis" class="kpi-grid" aria-label="研究状态概览"></section>
+
+    <section class="panel roadmap-panel">
+      <div class="panel-head">
+        <div><p class="section-index">01</p><h2>阶段路线图</h2></div>
+        <p>只有正式 Gate 与审查信号才解锁下一阶段</p>
+      </div>
+      <div id="roadmap" class="roadmap"></div>
+    </section>
+
+    <div class="two-column">
+      <section class="panel">
+        <div class="panel-head"><div><p class="section-index">02</p><h2>已测核心增益</h2></div><p>B1 P2–P6 − B0 P3–P7</p></div>
+        <div id="metrics" class="metrics"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="section-index">03</p><h2>论断证据覆盖</h2></div><p>当前可以与不可以声称什么</p></div>
+        <div id="evidence" class="evidence-list"></div>
+      </section>
+    </div>
+
+    <div class="two-column">
+      <section class="panel attention-panel">
+        <div class="panel-head"><div><p class="section-index">04</p><h2>阻塞与状态漂移</h2></div><p>推进前必须显式处理</p></div>
+        <div id="blockers" class="stack-list"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><div><p class="section-index">05</p><h2>下一步队列</h2></div><p>按治理顺序，而非模块堆叠顺序</p></div>
+        <div id="actions" class="action-list"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel-head"><div><p class="section-index">06</p><h2>A1 运行矩阵</h2></div><p>四组受审指标，数值均为 [0,1] 标度</p></div>
+      <div class="table-wrap"><table><thead><tr><th>模型</th><th>Seed</th><th>APvt</th><th>ARvt [2,8)</th><th>总体 AP</th><th>Checkpoint SHA</th></tr></thead><tbody id="runs"></tbody></table></div>
+    </section>
+
+    <div class="two-column">
+      <section class="panel">
+        <div class="panel-head"><div><p class="section-index">07</p><h2>正式记录</h2></div><p>最近任务卡与审查</p></div>
+        <div id="records" class="record-list"></div>
+      </section>
+      <section class="panel git-panel">
+        <div class="panel-head"><div><p class="section-index">08</p><h2>Git 协同状态</h2></div><p>生成时快照</p></div>
+        <dl id="git-state" class="definition-grid"></dl>
+      </section>
+    </div>
+
+    <section class="panel source-panel">
+      <div class="panel-head"><div><p class="section-index">09</p><h2>权威数据源</h2></div><p>可逐项回到仓库复核</p></div>
+      <div id="sources" class="source-grid"></div>
+    </section>
+
+    <footer>
+      <p id="footer-meta"></p>
+      <p>本面板不自动批准科研结论。更新数据后仍需研究设计 agent 审核证据。</p>
+    </footer>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

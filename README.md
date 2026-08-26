@@ -14,6 +14,22 @@ The project targets missed detections of extremely tiny objects, especially the 
 
 Research status: `PLANNED / NOT_TESTED`.
 
+> This line records the original brief status. For the current reviewed state,
+> use `docs/memory/CURRENT_STATE.md` or the generated dashboard below.
+
+## Research progress dashboard
+
+Open `dashboard/index.html` for a repository-native view of the roadmap,
+reviewed metrics, evidence boundaries, blockers, next actions, and Git handoff
+state. Refresh it from authoritative repository files with:
+
+```powershell
+python tools/build_research_dashboard.py --fetch
+```
+
+The dashboard is read-only and does not turn an experiment-agent report into a
+research conclusion. See `dashboard/README.md` for its source and drift rules.
+
 ## Independence boundary
 
 This repository is independent from the frequency-routing mainline project. It does not inherit that project's datasets, model constraints, task IDs, gates, utility targets, experimental conclusions, or Git history.
