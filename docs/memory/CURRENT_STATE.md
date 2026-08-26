@@ -3,7 +3,7 @@
 - Snapshot date: 2026-08-26
 - Snapshot status: `MEASURED / REVIEW_PASSED`
 - Workspace: `D:\研究\tiny-object-research`
-- Current research branch: `codex/research-evidence-audit`
+- Current research branch: `codex/research-prt-002-a1`
 - Reviewed experiment commit: `01ec41b0f052a170116185b2cd481c36ae3d725a`
 - Remote: `https://github.com/yjm1153/tiny-object-research.git`
 
@@ -62,6 +62,7 @@ B1 相对 B0 的两 seed A1 证据已完成正确复算：平均 `Delta APvt_off
 
 - PRT-001-A1：`REVIEW_PASSED`；核心 Gate 与报告一致性条件均已通过，最终实验交接 commit 为 `01ec41b0f052a170116185b2cd481c36ae3d725a`。
 - PRT-002：`REVISION_REQUIRED`；PDD v1 零 AP 是负测量，必需消融、主指标和受控根因干预均缺失。
+- PRT-002-A1：`APPROVED_WITH_CONDITIONS`；先执行旧证据/数据/拓扑/参数更新审计，Gate A/P 远端可见后才允许匹配 `B1-U/PDD-U` seed 0。
 - PRT-003/SSR：`LOCKED`。
 
 正式审查：
@@ -71,19 +72,22 @@ B1 相对 B0 的两 seed A1 证据已完成正确复算：平均 `Delta APvt_off
 - `research/reviews/2026-08-26-PRT-001-A1-result-review-1.md`
 - `research/reviews/2026-08-26-PRT-001-A1-result-review-2.md`
 - `research/reviews/2026-08-26-PRT-001-A1-result-review-3.md`
+- `research/reviews/2026-08-26-PRT-002-A1-design-review-1.md`
 - `docs/decisions/DR-003-evidence-completion-before-method-progression.md`
 - `docs/decisions/DR-004-ccf-c-paced-evidence-standard.md`
 
 ## 8. 当前下一阶段与执行权限
 
-`PRT-001-A1` 已正式关闭。下一候选任务为 `PRT-002-A1`：PDD 受控诊断与根因确认。
+`PRT-001-A1` 已正式关闭。当前任务为 `PRT-002-A1`：PDD 因果诊断与最小可行性复核。
 
-- 当前状态：`DESIGN_PENDING / EXECUTION_LOCKED`；
-- 当前许可：研究设计 agent 可以建立 `PRT-002-A1` 任务卡与设计审查；
-- 执行前置：完成必要的 `main` 治理集成，任务卡与设计审查达到可执行状态，并从最新 `main` 建立独立实验分支；
-- 实验 agent 当前不得运行 PDD v2、SSR、NWD 或泛化实验。
+- 任务卡：`experiment_handoffs/tasks/PRT-002-A1-pdd-causal-diagnostic.md` v1.0；
+- 设计审查：`research/reviews/2026-08-26-PRT-002-A1-design-review-1.md`；
+- 当前状态：`APPROVED_WITH_CONDITIONS / AUDIT_FIRST`；
+- 当前许可：实验 agent 从任务卡所在最新 `main` 创建 `codex/exp-prt-002-a1`，执行 WP0–WP2 审计、配置、测试和 smoke；
+- 条件许可：Gate A/P 证据 commit + push 后运行匹配 `B1-U/PDD-U` seed 0；Gate V 后才补 seed 1；仅预注册歧义补 seed 2；
+- 仍然禁止：双位置 PDD、完整消融、SSR、NWD 或泛化实验。
 
-`PRT-002-A1` 应是小预算、受控的根因诊断任务，不直接把 PDD v1 的零 AP 解释成单一工程原因，也不提前叠加 SSR。
+旧 PDD v2 只有在数据、配置、seed、拓扑、checkpoint/prediction 全部可追溯且与新卡匹配时才能复用；否则标记 `LEGACY_ONLY`。PDD 失败不得自动证明 SSR 必要。
 
 Git 是研究设计与实验执行的正式协同面。任务卡/审查、运行前实现、Gate 结果和最终交接均须在发送信号前 commit 并 push；接收方开工前必须 fetch 并核对指定完整 SHA。正式审查只接受远端可见的实验 commit。
 
@@ -94,5 +98,6 @@ Git 是研究设计与实验执行的正式协同面。任务卡/审查、运行
 - 治理与证据决策：`docs/decisions/DR-001-role-separated-governance.md`、`docs/decisions/DR-003-evidence-completion-before-method-progression.md`、`docs/decisions/DR-004-ccf-c-paced-evidence-standard.md`
 - 已完成任务卡与设计审查：`experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md`（v1.1）、`research/reviews/2026-08-23-PRT-001-A1-design-review-2.md`
 - 当前结果审查：`research/reviews/2026-08-26-PRT-001-A1-result-review-3.md`、`research/reviews/2026-08-23-PRT-002-result-review-2.md`
+- 当前任务卡与设计审查：`experiment_handoffs/tasks/PRT-002-A1-pdd-causal-diagnostic.md`、`research/reviews/2026-08-26-PRT-002-A1-design-review-1.md`
 
 若旧的 `2026-08-23-PRT-001-result-review-final.md`、PRT-001-A1 v1.0、design-review-1、result-review-1/2 或实验侧自评与本快照冲突，以 DR-004、任务卡 v1.1、design-review-2 和 `2026-08-26-PRT-001-A1-result-review-3.md` 为准；旧记录保留用于审计，不删除。

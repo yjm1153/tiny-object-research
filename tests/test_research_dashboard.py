@@ -19,8 +19,9 @@ class ResearchDashboardTest(unittest.TestCase):
         payload = dashboard.build_payload()
 
         self.assertEqual(payload["snapshot"]["task"], "PRT-002-A1")
-        self.assertEqual(payload["snapshot"]["phase"], "P2 / PDD 受控诊断设计")
+        self.assertEqual(payload["snapshot"]["phase"], "P2 / PDD 因果诊断")
         self.assertEqual(payload["snapshot"]["status"], "MEASURED / REVIEW_PASSED")
+        self.assertEqual(payload["snapshot"]["taskStatus"], "APPROVED_WITH_CONDITIONS / AUDIT_FIRST")
         self.assertTrue(payload["snapshot"]["reviewedCommit"].startswith("01ec41b"))
         self.assertEqual(len(payload["runs"]), 4)
         metrics = {item["field"]: item for item in payload["metrics"]}
@@ -33,11 +34,11 @@ class ResearchDashboardTest(unittest.TestCase):
         payload = dashboard.build_payload()
         titles = {item["title"] for item in payload["blockers"]}
 
-        self.assertIn("研究治理状态尚未进入 main", titles)
         self.assertNotIn("EVIDENCE_LEDGER.md 尚未同步当前审查", titles)
         self.assertIn("research_brief_v0.1.md 尚未同步当前审查", titles)
         self.assertNotIn("A1 实验报告尚待机械修正", titles)
-        self.assertTrue(any("PRT-002-A1" in action["action"] for action in payload["nextActions"]))
+        self.assertTrue(any("WP0–WP2" in action["action"] for action in payload["nextActions"]))
+        self.assertEqual(payload["phases"][2]["status"], "AUDIT_AUTHORIZED")
 
     def test_rendered_data_contains_stable_fingerprint(self) -> None:
         payload = dashboard.build_payload()

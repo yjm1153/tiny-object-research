@@ -30,6 +30,8 @@ LATEST_REVIEW_PATH = "research/reviews/2026-08-26-PRT-001-A1-result-review-3.md"
 EXPERIMENT_REPORT_PATH = "experiment_handoffs/results/PRT-001-A1-evidence-completion.md"
 SUMMARY_PATH = "outputs/PRT-001-A1/summary.csv"
 EXPERIMENT_REF = "origin/codex/exp-prt-001-a1"
+PRT002_TASK_PATH = "experiment_handoffs/tasks/PRT-002-A1-pdd-causal-diagnostic.md"
+PRT002_REVIEW_PATH = "research/reviews/2026-08-26-PRT-002-A1-design-review-1.md"
 
 
 def run_git(*args: str, check: bool = True) -> str:
@@ -178,6 +180,8 @@ def build_payload() -> dict[str, Any]:
     snapshot_date = parse_date(current, "Snapshot date") or "UNKNOWN"
     snapshot_status = match_value(current, "Snapshot status")
     a1_passed = "REVIEW_PASSED" in snapshot_status and "WITH_CONDITIONS" not in snapshot_status
+    prt002_review = read_text(PRT002_REVIEW_PATH) if (REPO_ROOT / PRT002_REVIEW_PATH).exists() else ""
+    prt002_approved = "APPROVED_WITH_CONDITIONS" in prt002_review
     reviewed_commit = match_value(current, "Reviewed experiment commit")
     summary_text, summary_source = read_worktree_or_ref(SUMMARY_PATH, EXPERIMENT_REF)
     report_text, report_source = read_worktree_or_ref(EXPERIMENT_REPORT_PATH, EXPERIMENT_REF)
@@ -239,8 +243,8 @@ def build_payload() -> dict[str, Any]:
         {
             "id": "P2",
             "name": "PDD 受控诊断与改版",
-            "status": "DESIGN_PENDING" if a1_passed else "LOCKED",
-            "evidence": "A1 已通过，允许建立 PRT-002-A1 任务卡；正式执行仍锁定。" if a1_passed else "PDD v1 零 AP 为负测量，因果归因未验证；PRT-002-A1 任务卡尚未建立。",
+            "status": "AUDIT_AUTHORIZED" if prt002_approved else ("DESIGN_PENDING" if a1_passed else "LOCKED"),
+            "evidence": "任务卡已附条件批准；仅 WP0–WP2 审计/测试/smoke 立即授权。" if prt002_approved else ("A1 已通过，允许建立 PRT-002-A1 任务卡；正式执行仍锁定。" if a1_passed else "PDD v1 零 AP 为负测量，因果归因未验证；PRT-002-A1 任务卡尚未建立。"),
         },
         {
             "id": "P3",
@@ -269,13 +273,13 @@ def build_payload() -> dict[str, Any]:
         "snapshot": {
             "date": snapshot_date,
             "status": snapshot_status,
-            "phase": "P2 / PDD 受控诊断设计" if a1_passed else "P1 / 基线证据补全",
+            "phase": "P2 / PDD 因果诊断" if prt002_approved else ("P2 / PDD 受控诊断设计" if a1_passed else "P1 / 基线证据补全"),
             "task": "PRT-002-A1" if a1_passed else "PRT-001-A1",
-            "taskStatus": "DESIGN_PENDING / EXECUTION_LOCKED" if a1_passed else "REVIEW_PASSED_WITH_CONDITIONS / REPORT_CORRECTION_ONLY",
+            "taskStatus": "APPROVED_WITH_CONDITIONS / AUDIT_FIRST" if prt002_approved else ("DESIGN_PENDING / EXECUTION_LOCKED" if a1_passed else "REVIEW_PASSED_WITH_CONDITIONS / REPORT_CORRECTION_ONLY"),
             "reviewedCommit": reviewed_commit,
             "role": "研究设计 agent",
             "scope": "独立 2–8 px 极小目标检测副线",
-            "permission": "允许设计 PRT-002-A1；新任务卡与设计审查批准前正式运行锁定。" if a1_passed else "仅允许 A1 report-only 修正；PDD/SSR/NWD/泛化正式运行锁定。",
+            "permission": "允许 WP0–WP2；Gate A/P 远端可见后才允许匹配 seed 0。" if prt002_approved else ("允许设计 PRT-002-A1；新任务卡与设计审查批准前正式运行锁定。" if a1_passed else "仅允许 A1 report-only 修正；PDD/SSR/NWD/泛化正式运行锁定。"),
         },
         "git": git,
         "phases": phases,
@@ -284,6 +288,14 @@ def build_payload() -> dict[str, Any]:
         "evidence": evidence,
         "blockers": blockers,
         "nextActions": (
+            [
+                {"order": 1, "owner": "实验执行 agent", "action": "从最新 main 创建 codex/exp-prt-002-a1，完成 WP0–WP2。"},
+                {"order": 2, "owner": "实验执行 agent", "action": "提交并 push 数据/旧 run/拓扑/参数更新审计与 smoke。"},
+                {"order": 3, "owner": "实验执行 agent", "action": "Gate A/P 通过后运行匹配 B1-U/PDD-U seed 0。"},
+                {"order": 4, "owner": "实验执行 agent", "action": "仅按 Gate V/B 条件补 seed 1/2 并交付结构化结果。"},
+            ]
+            if prt002_approved
+            else
             [
                 {"order": 1, "owner": "用户 / 研究设计 agent", "action": "审阅并将已通过的 A1 治理状态集成到 main。"},
                 {"order": 2, "owner": "研究设计 agent", "action": "建立 PRT-002-A1 小预算受控诊断任务卡。"},
@@ -307,6 +319,8 @@ def build_payload() -> dict[str, Any]:
             {"path": CURRENT_STATE_PATH, "role": "当前状态快照"},
             {"path": LATEST_REVIEW_PATH, "role": "当前正式结果审查"},
             {"path": "experiment_handoffs/tasks/PRT-001-amendment-1-evidence-completion.md", "role": "当前任务卡 v1.1"},
+            {"path": PRT002_TASK_PATH, "role": "PRT-002-A1 当前任务卡"},
+            {"path": PRT002_REVIEW_PATH, "role": "PRT-002-A1 设计审查"},
             {"path": SUMMARY_PATH, "role": f"四组受审轻量指标（读取自 {summary_source}）"},
             {"path": EXPERIMENT_REPORT_PATH, "role": f"实验自查报告（读取自 {report_source}）"},
         ],
