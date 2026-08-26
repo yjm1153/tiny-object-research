@@ -60,7 +60,7 @@
 | **B0-S0** | FCOS-R50 (P3–P7) | 0 | `MEASURED` | `outputs/PRT-001/B0/seed0/` | `aa818352075aca11bd8ace446091fd78c274e1c4cc12fabb0e7e529178a3a036` | `9f6d949df389a6c7cdcb00bbb77044264d0aaae7b6bce8900cfcd97e4dce39a2` | `outputs/PRT-001-A1/B0/seed0/metrics.json` |
 | **B0-S1** | FCOS-R50 (P3–P7) | 1 | `MEASURED` | `outputs/PRT-001-A1/logs/train_b0_seed1.log` | `a834f800e0c2f8a9c76ef2e709ef3ea8f7eb45ea216e558b8871922357bfb28f` | `5bd80ce11e38508c738166c824549eebdc4bbf02ced4de07bf49c28286a5b8d3` | `outputs/PRT-001-A1/B0/seed1/metrics.json` |
 | **B1-S0** | FCOS-R50 (P2–P6) | 0 | `MEASURED` | `outputs/PRT-001/B1/seed0/` | `a189d7b76676ce6601c7c37c639f700120cb4fed0fd4b0d7b25bb1fe2beb9076` | `62d616954d72cf5854e6962545a6bdbbb50654f7ae26bae76076e8fbd53e5566` | `outputs/PRT-001-A1/B1/seed0/metrics.json` |
-| **B1-S1** | FCOS-R50 (P2–P6) | 1 | `MEASURED` | `outputs/PRT-001-A1/logs/train_b1_seed1.log` | `2721e64a371df3c15d74261765c977f6b0f191f66060c4aa3bc8d89e504c5e7b` | `7b608a19d4dee0c45c0306e75eae2fe305c8f740ef79e40f1d4575c079f99837` | `outputs/PRT-001-A1/B1/seed1/metrics.json` |
+| **B1-S1** | FCOS-R50 (P2–P6) | 1 | `MEASURED` | `outputs/PRT-001-A1/logs/train_b1_seed1.log` | `2721e64a371d80eb52ba7406e8b320e7c1498cdddad0ee893ba2b762c3d2463b` | `7b608a19d4dee0c45c0306e75eae2fe305c8f740ef79e40f1d4575c079f99837` | `outputs/PRT-001-A1/B1/seed1/metrics.json` |
 
 ## 7. 测得指标矩阵
 
