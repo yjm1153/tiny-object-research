@@ -91,7 +91,7 @@
 
   const gitRows = [
     ["Branch", data.git.branch], ["Build source HEAD", data.git.head],
-    ["origin/research", data.git.remoteResearch], ["origin/experiment", data.git.remoteExperiment],
+    ["受审 experiment", data.git.remoteExperiment],
     ["origin/main", data.git.remoteMain], ["已进入 main", data.git.integratedIntoMain ? "YES" : "NO"],
   ];
   $("git-state").innerHTML = gitRows.map(([key, value]) => `<dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value || "UNKNOWN")}</dd>`).join("");

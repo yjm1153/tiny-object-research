@@ -151,7 +151,6 @@ def git_state() -> dict[str, Any]:
     branch = run_git("branch", "--show-current")
     head = run_git("rev-parse", "HEAD")
     status_lines = [line for line in run_git("status", "--short").splitlines() if line]
-    remote_research = run_git("rev-parse", "origin/codex/research-evidence-audit", check=False)
     remote_experiment = run_git("rev-parse", EXPERIMENT_REF, check=False)
     remote_main = run_git("rev-parse", "origin/main", check=False)
     integrated = False
@@ -167,10 +166,8 @@ def git_state() -> dict[str, Any]:
         "head": head,
         "dirty": bool(status_lines),
         "dirtyEntries": status_lines,
-        "remoteResearch": remote_research or None,
         "remoteExperiment": remote_experiment or None,
         "remoteMain": remote_main or None,
-        "headOnRemote": remote_research == head,
         "integratedIntoMain": integrated,
     }
 
