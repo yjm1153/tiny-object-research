@@ -4,12 +4,12 @@
 
 ## 当前状态
 
-截至2026-08-16，没有副线实验通过研究结果审查。
+截至2026-08-26，PRT-001-A1 已通过最终研究结果审查；方法模块仍未获得正向证据。
 
 | Task ID | Claim | Status | Result report | Review record | Raw evidence | Accepted scope |
 |---|---|---|---|---|---|---|
-| PRT-001 | AI-TOD-v2基线与极小尺度评估器 | `NOT_TESTED` | 无 | 无 | 无 | 无 |
-| PRT-002 | PDD单模块 | `LOCKED` | 无 | 无 | 无 | 无 |
+| PRT-001-A1 | P2–P6 相对 P3–P7 在当前协议下稳定改善极小目标基线 | `MEASURED / REVIEW_PASSED` | `experiment_handoffs/results/PRT-001-A1-evidence-completion.md` | `research/reviews/2026-08-26-PRT-001-A1-result-review-3.md` | `outputs/PRT-001-A1/summary.csv`、`gate_report.json`、四组 `metrics.json`；最终交接 `01ec41b0f052a170116185b2cd481c36ae3d725a` | 仅 AI-TOD-v2、FCOS-R50、12 epochs、seeds 0/1；平均 ΔAPvt `+0.0103`、ΔARvt[2,8) `+0.0131`、ΔAP `+0.0297` |
+| PRT-002 / PDD v1 | PDD单模块 | `NOT_ESTABLISHED / REVISION_REQUIRED` | `experiment_handoffs/results/PRT-002-pdd-module.md` | `research/reviews/2026-08-23-PRT-002-result-review-2.md` | 零 AP 负测量可定位，但根因解释未验证 | 不接受 PDD 有效或失败归因结论；等待 PRT-002-A1 受控诊断 |
 | SSR tasks | SSR及机制控制 | `LOCKED` | 无 | 无 | 无 | 无 |
 
 ## 登记条件

@@ -18,8 +18,10 @@ class ResearchDashboardTest(unittest.TestCase):
     def test_payload_uses_current_reviewed_evidence(self) -> None:
         payload = dashboard.build_payload()
 
-        self.assertEqual(payload["snapshot"]["task"], "PRT-001-A1")
-        self.assertTrue(payload["snapshot"]["reviewedCommit"].startswith("95dbcd6"))
+        self.assertEqual(payload["snapshot"]["task"], "PRT-002-A1")
+        self.assertEqual(payload["snapshot"]["phase"], "P2 / PDD 受控诊断设计")
+        self.assertEqual(payload["snapshot"]["status"], "MEASURED / REVIEW_PASSED")
+        self.assertTrue(payload["snapshot"]["reviewedCommit"].startswith("01ec41b"))
         self.assertEqual(len(payload["runs"]), 4)
         metrics = {item["field"]: item for item in payload["metrics"]}
         self.assertTrue(metrics["APvt_official_1500"]["pass"])
@@ -32,8 +34,10 @@ class ResearchDashboardTest(unittest.TestCase):
         titles = {item["title"] for item in payload["blockers"]}
 
         self.assertIn("研究治理状态尚未进入 main", titles)
-        self.assertIn("EVIDENCE_LEDGER.md 尚未同步当前审查", titles)
-        self.assertTrue(any("report-only" in action["action"] for action in payload["nextActions"]))
+        self.assertNotIn("EVIDENCE_LEDGER.md 尚未同步当前审查", titles)
+        self.assertIn("research_brief_v0.1.md 尚未同步当前审查", titles)
+        self.assertNotIn("A1 实验报告尚待机械修正", titles)
+        self.assertTrue(any("PRT-002-A1" in action["action"] for action in payload["nextActions"]))
 
     def test_rendered_data_contains_stable_fingerprint(self) -> None:
         payload = dashboard.build_payload()

@@ -26,7 +26,7 @@ DEFAULT_OUTPUT = DASHBOARD_DIR / "data.js"
 CURRENT_STATE_PATH = "docs/memory/CURRENT_STATE.md"
 EVIDENCE_LEDGER_PATH = "docs/memory/EVIDENCE_LEDGER.md"
 RESEARCH_BRIEF_PATH = "docs/research_brief_v0.1.md"
-LATEST_REVIEW_PATH = "research/reviews/2026-08-26-PRT-001-A1-result-review-2.md"
+LATEST_REVIEW_PATH = "research/reviews/2026-08-26-PRT-001-A1-result-review-3.md"
 EXPERIMENT_REPORT_PATH = "experiment_handoffs/results/PRT-001-A1-evidence-completion.md"
 SUMMARY_PATH = "outputs/PRT-001-A1/summary.csv"
 EXPERIMENT_REF = "origin/codex/exp-prt-001-a1"
@@ -176,6 +176,8 @@ def build_payload() -> dict[str, Any]:
     current = read_text(CURRENT_STATE_PATH)
     latest_review = read_text(LATEST_REVIEW_PATH)
     snapshot_date = parse_date(current, "Snapshot date") or "UNKNOWN"
+    snapshot_status = match_value(current, "Snapshot status")
+    a1_passed = "REVIEW_PASSED" in snapshot_status and "WITH_CONDITIONS" not in snapshot_status
     reviewed_commit = match_value(current, "Reviewed experiment commit")
     summary_text, summary_source = read_worktree_or_ref(SUMMARY_PATH, EXPERIMENT_REF)
     report_text, report_source = read_worktree_or_ref(EXPERIMENT_REPORT_PATH, EXPERIMENT_REF)
@@ -231,14 +233,14 @@ def build_payload() -> dict[str, Any]:
         {
             "id": "P1",
             "name": "P2 基线证据补全",
-            "status": "CONDITIONAL",
-            "evidence": "两 seed 核心 Gate 通过；仅剩报告一致性条件。",
+            "status": "DONE" if a1_passed else "CONDITIONAL",
+            "evidence": "两 seed 核心 Gate 与报告一致性条件均已通过。" if a1_passed else "两 seed 核心 Gate 通过；仅剩报告一致性条件。",
         },
         {
             "id": "P2",
             "name": "PDD 受控诊断与改版",
-            "status": "LOCKED",
-            "evidence": "PDD v1 零 AP 为负测量，因果归因未验证；PRT-002-A1 任务卡尚未建立。",
+            "status": "DESIGN_PENDING" if a1_passed else "LOCKED",
+            "evidence": "A1 已通过，允许建立 PRT-002-A1 任务卡；正式执行仍锁定。" if a1_passed else "PDD v1 零 AP 为负测量，因果归因未验证；PRT-002-A1 任务卡尚未建立。",
         },
         {
             "id": "P3",
@@ -254,7 +256,7 @@ def build_payload() -> dict[str, Any]:
         },
     ]
     evidence = [
-        {"claim": "P2–P6 改善极小目标基线", "status": "CONDITIONALLY_ACCEPTED", "basis": "AI-TOD-v2，FCOS-R50，12 epochs，seeds 0/1"},
+        {"claim": "P2–P6 改善极小目标基线", "status": "ACCEPTED" if a1_passed else "CONDITIONALLY_ACCEPTED", "basis": "AI-TOD-v2，FCOS-R50，12 epochs，seeds 0/1"},
         {"claim": "P2 收益在两个 seed 方向一致", "status": "MEASURED", "basis": "APvt、精确 ARvt、总体 AP 均为正"},
         {"claim": "PDD 有效", "status": "NOT_ESTABLISHED", "basis": "PDD v1 零 AP；根因解释未验证"},
         {"claim": "SSR / PRTiny 有效", "status": "NOT_TESTED", "basis": "正式任务仍锁定"},
@@ -266,13 +268,14 @@ def build_payload() -> dict[str, Any]:
         "generatedAt": datetime.now().astimezone().isoformat(timespec="seconds"),
         "snapshot": {
             "date": snapshot_date,
-            "status": match_value(current, "Snapshot status"),
-            "task": "PRT-001-A1",
-            "taskStatus": "REVIEW_PASSED_WITH_CONDITIONS / REPORT_CORRECTION_ONLY",
+            "status": snapshot_status,
+            "phase": "P2 / PDD 受控诊断设计" if a1_passed else "P1 / 基线证据补全",
+            "task": "PRT-002-A1" if a1_passed else "PRT-001-A1",
+            "taskStatus": "DESIGN_PENDING / EXECUTION_LOCKED" if a1_passed else "REVIEW_PASSED_WITH_CONDITIONS / REPORT_CORRECTION_ONLY",
             "reviewedCommit": reviewed_commit,
             "role": "研究设计 agent",
             "scope": "独立 2–8 px 极小目标检测副线",
-            "permission": "仅允许 A1 report-only 修正；PDD/SSR/NWD/泛化正式运行锁定。",
+            "permission": "允许设计 PRT-002-A1；新任务卡与设计审查批准前正式运行锁定。" if a1_passed else "仅允许 A1 report-only 修正；PDD/SSR/NWD/泛化正式运行锁定。",
         },
         "git": git,
         "phases": phases,
@@ -280,13 +283,21 @@ def build_payload() -> dict[str, Any]:
         "runs": runs,
         "evidence": evidence,
         "blockers": blockers,
-        "nextActions": [
-            {"order": 1, "owner": "实验执行 agent", "action": "在实验分支完成 A1 report-only 修正并 push 完整 SHA。"},
-            {"order": 2, "owner": "研究设计 agent", "action": "fetch 并核验修正 commit，关闭 A1 附加条件。"},
-            {"order": 3, "owner": "研究设计 agent", "action": "同步 EVIDENCE_LEDGER 与 research brief，消除状态漂移。"},
-            {"order": 4, "owner": "用户 / 研究设计 agent", "action": "审阅并将治理状态集成到 main。"},
-            {"order": 5, "owner": "研究设计 agent", "action": "建立 PRT-002-A1 受控诊断任务卡与设计审查。"},
-        ],
+        "nextActions": (
+            [
+                {"order": 1, "owner": "用户 / 研究设计 agent", "action": "审阅并将已通过的 A1 治理状态集成到 main。"},
+                {"order": 2, "owner": "研究设计 agent", "action": "建立 PRT-002-A1 小预算受控诊断任务卡。"},
+                {"order": 3, "owner": "研究设计 agent", "action": "完成 PRT-002-A1 设计审查并冻结科学变量。"},
+                {"order": 4, "owner": "实验执行 agent", "action": "获批后从最新 main 建立独立实验分支并执行。"},
+            ]
+            if a1_passed
+            else [
+                {"order": 1, "owner": "实验执行 agent", "action": "在实验分支完成 A1 report-only 修正并 push 完整 SHA。"},
+                {"order": 2, "owner": "研究设计 agent", "action": "fetch 并核验修正 commit，关闭 A1 附加条件。"},
+                {"order": 3, "owner": "研究设计 agent", "action": "同步 EVIDENCE_LEDGER，消除状态漂移。"},
+                {"order": 4, "owner": "用户 / 研究设计 agent", "action": "审阅并将治理状态集成到 main。"},
+            ]
+        ),
         "records": {
             "reviews": collect_records("research/reviews")[:8],
             "tasks": collect_records("experiment_handoffs/tasks")[:8],
@@ -299,7 +310,7 @@ def build_payload() -> dict[str, Any]:
             {"path": SUMMARY_PATH, "role": f"四组受审轻量指标（读取自 {summary_source}）"},
             {"path": EXPERIMENT_REPORT_PATH, "role": f"实验自查报告（读取自 {report_source}）"},
         ],
-        "reviewExcerpt": re.search(r"\[REVIEW_PASSED_WITH_CONDITIONS\].+", latest_review).group(0),
+        "reviewExcerpt": re.search(r"\[REVIEW_PASSED(?:_WITH_CONDITIONS)?\].+", latest_review).group(0),
         "updateCommand": "python tools/build_research_dashboard.py --fetch",
     }
     stable = {

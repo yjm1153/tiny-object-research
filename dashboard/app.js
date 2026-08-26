@@ -13,7 +13,7 @@
     const value = String(status).toUpperCase();
     if (value.includes("NOT_ESTABLISHED") || value.includes("FAILED") || value.includes("REJECTED")) return "bad";
     if (value.includes("CONDITION") || value.includes("DRIFT") || value.includes("GOVERNANCE")) return "warn";
-    if (value.includes("DONE") || value.includes("MEASURED") || value.includes("PASSED")) return "good";
+    if (value.includes("DONE") || value.includes("MEASURED") || value.includes("PASSED") || value === "ACCEPTED") return "good";
     if (value.includes("LOCKED") || value.includes("NOT_TESTED")) return "muted";
     return "info";
   };
@@ -37,8 +37,8 @@
   });
 
   const kpis = [
-    ["当前阶段", "P1 / 基线证据补全", data.snapshot.status],
-    ["唯一任务", data.snapshot.task, data.snapshot.taskStatus],
+    ["当前阶段", data.snapshot.phase, data.snapshot.status],
+    ["当前/候选任务", data.snapshot.task, data.snapshot.taskStatus],
     ["已审实验提交", shortSha(data.snapshot.reviewedCommit), data.snapshot.reviewedCommit],
     ["研究分支", data.git.branch, data.git.dirty ? `生成时有 ${data.git.dirtyEntries.length} 项未提交变化` : "生成时工作区干净"],
   ];
