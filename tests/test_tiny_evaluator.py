@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Gate E 单元测试：验证评估器可信性、尺度边界、坐标映射、敏感性与重复性"""
+"""Gate E 单元测试：验证评估器可信性、尺度边界、坐标逆映射、敏感性与重复性"""
 
 import pytest
 import math
@@ -83,6 +83,62 @@ def test_scale_bins_conservation():
     assert stats["official_counts"]["tiny"] == 1
 
 
+def test_exact_2_8px_scale_boundaries():
+    """Gate E: 验证 2 px、略小于 8 px、等于 8 px 的精确尺度边界行为"""
+    dataset = {
+        "images": [{"id": 1, "width": 800, "height": 800, "file_name": "boundary.png"}],
+        "categories": [{"id": 1, "name": "target"}],
+        "annotations": [
+            # 刚好等于 2.0 px: area = 4.0 -> 应纳入 [2, 8) 区间
+            {"id": 1, "image_id": 1, "category_id": 1, "bbox": [10.0, 10.0, 2.0, 2.0], "area": 4.0, "iscrowd": 0},
+            # 略小于 8.0 px (s=7.99): area = 63.84 -> 应纳入 [2, 8) 区间
+            {"id": 2, "image_id": 1, "category_id": 1, "bbox": [50.0, 50.0, 7.99, 7.99], "area": 63.84, "iscrowd": 0},
+            # 刚好等于 8.0 px (s=8.0): area = 64.0 -> 不属于 [2, 8) 区间，属于 tiny (8-16px)
+            {"id": 3, "image_id": 1, "category_id": 1, "bbox": [100.0, 100.0, 8.0, 8.0], "area": 64.0, "iscrowd": 0},
+            # 小于 2.0 px (s=1.5): area = 2.25 -> 不属于 [2, 8) 区间
+            {"id": 4, "image_id": 1, "category_id": 1, "bbox": [150.0, 150.0, 1.5, 1.5], "area": 2.25, "iscrowd": 0},
+        ]
+    }
+    gt = COCO()
+    gt.dataset = dataset
+    gt.createIndex()
+
+    # 1. 完美命中 2.0 px 与 7.99 px 两个目标
+    preds_2_and_799 = [
+        {"image_id": 1, "category_id": 1, "bbox": [10.0, 10.0, 2.0, 2.0], "score": 0.95},
+        {"image_id": 1, "category_id": 1, "bbox": [50.0, 50.0, 7.99, 7.99], "score": 0.95},
+    ]
+    res_2_and_799 = evaluate_project_2_8px(gt, preds_2_and_799, min_scale=2.0, max_scale=8.0, max_dets=3000)
+    # [2, 8) 区间内仅有 2 个 GT，全部命中，AR 应为 1.0
+    assert math.isclose(res_2_and_799["ARvt_2_8_3000"], 1.0, abs_tol=1e-3)
+    assert res_2_and_799["AP_2_8_3000"] > 0.9
+
+    # 2. 仅命中 8.0 px 目标 (该目标属于 8-16px，不应增加 2-8px 召回)
+    preds_80 = [
+        {"image_id": 1, "category_id": 1, "bbox": [100.0, 100.0, 8.0, 8.0], "score": 0.95},
+    ]
+    res_80 = evaluate_project_2_8px(gt, preds_80, min_scale=2.0, max_scale=8.0, max_dets=3000)
+    assert res_80["ARvt_2_8_3000"] == 0.0
+
+
+def test_pipeline_inverse_coordinate_mapping():
+    """Gate E: 验证推理后预测框逆映射回原图坐标的准确性"""
+    # 模拟原图尺寸 (H=1000, W=1000)，经 Resize 缩放至 (800, 800) 且 scale_factor=0.8
+    scale_factor = 0.8
+    orig_box = [100.0, 150.0, 20.0, 30.0]  # 原图空间 [x, y, w, h]
+    
+    # 缩放后模型特征空间的检测结果
+    model_feat_box = [orig_box[0] * scale_factor, orig_box[1] * scale_factor,
+                      orig_box[2] * scale_factor, orig_box[3] * scale_factor]
+    
+    # 逆映射还原至原图空间
+    unmapped_box = [model_feat_box[0] / scale_factor, model_feat_box[1] / scale_factor,
+                     model_feat_box[2] / scale_factor, model_feat_box[3] / scale_factor]
+    
+    for v_orig, v_unmapped in zip(orig_box, unmapped_box):
+        assert math.isclose(v_orig, v_unmapped, rel_tol=1e-5)
+
+
 def test_perfect_and_empty_predictions():
     """测试空预测与完美预测行为"""
     gt = _create_mock_dataset()
@@ -130,8 +186,8 @@ def test_prediction_sensitivity():
     assert res_good["ARvt_2_8_3000"] > res_bad["ARvt_2_8_3000"]
 
 
-def test_coordinate_mapping_and_repeatability():
-    """Gate E: 验证原图坐标映射与重评一致性"""
+def test_repeatability():
+    """Gate E: 验证重评完全一致性"""
     gt = _create_mock_dataset()
     preds = [
         {"image_id": 1, "category_id": 1, "bbox": [10.0, 10.0, 3.0, 3.0], "score": 0.90},
@@ -141,7 +197,6 @@ def test_coordinate_mapping_and_repeatability():
     res1 = evaluate_full_prtiny(gt, preds)
     res2 = evaluate_full_prtiny(gt, preds)
     
-    # 重评完全一致
     assert res1 == res2
     assert res1["APvt_official_1500"] > 0.0
     assert res1["ARvt_2_8_3000"] > 0.0

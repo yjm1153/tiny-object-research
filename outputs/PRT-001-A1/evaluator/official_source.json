@@ -1,0 +1,16 @@
+{
+  "evaluator_name": "cocoapi-aitod / aitodpycocotools",
+  "official_repo": "https://github.com/jwwangchn/cocoapi-aitod.git",
+  "upstream_commit_sha": "44a230ae5197cb89bf9e5e62f313cac3ad30c7af",
+  "local_compatibility_patches": [
+    "Fixed setup.py extension duplicate sources to resolve gcc link error",
+    "Replaced deprecated np.float with standard float in cocoeval.py for numpy 1.24+ compatibility"
+  ],
+  "source_file_hashes": {
+    "cocoeval.py": "610433e6a4a609e2722aa2280a64eb70d1f5406d9bae1d50a8fca2de4422d069",
+    "coco.py": "ebc2121fa38435988101555f5db72914b69de8cb19eb14c75063099c13c7225d",
+    "setup.py": "2accea80319a2a38d17f4421f9a3921271d4f0ab00d77c5ca768f8bf5994402d"
+  },
+  "unit_tests_log": "outputs/PRT-001-A1/tests/pytest.txt",
+  "unit_tests_log_sha256": "ca036af3439dce0a8bbf102aefcab001768b27297b4a0026adfabc2c2ebb12f0"
+}

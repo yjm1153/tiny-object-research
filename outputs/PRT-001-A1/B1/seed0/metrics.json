@@ -1,0 +1,53 @@
+{
+  "task_id": "PRT-001-A1",
+  "model": "B1",
+  "seed": 0,
+  "config_path": "configs/prtiny/fcos_r50_fpn_p2p6_aitodv2.py",
+  "config_sha256": "daa83b8f6fce8e6f9dde24936db36e1b621d9eec20fcab7a88d05471e119bac7",
+  "checkpoint_path": "outputs/PRT-001/B1/seed0/best_coco_bbox_mAP_epoch_12.pth",
+  "checkpoint_sha256": "a189d7b76676ce6601c7c37c639f700120cb4fed0fd4b0d7b25bb1fe2beb9076",
+  "prediction_json_path": "outputs/PRT-001-A1/B1/seed0/predictions.bbox.json",
+  "prediction_json_sha256": "62d616954d72cf5854e6962545a6bdbbb50654f7ae26bae76076e8fbd53e5566",
+  "ann_file": "data/AI-TOD-v2/annotations/aitod_val_v1.json",
+  "evaluator_official_commit": "44a230ae5197cb89bf9e5e62f313cac3ad30c7af",
+  "metrics": {
+    "APvt_official_1500": 0.01361299210369095,
+    "ARvt_2_8_3000": 0.01644971979564037,
+    "AP_2_8_3000": 0.012662635443443381,
+    "AP": 0.04818575077372638,
+    "AP50": 0.12096154907769886,
+    "AP75": 0.03008639861362031,
+    "APt_official_1500": 0.05448285156720401,
+    "APs_official_1500": 0.07129145981138306,
+    "APm_official_1500": 0.07020803765685565,
+    "ARvt_official_1500": 0.01747275312731752,
+    "ARt_official_1500": 0.11233324493594705,
+    "ARs_official_1500": 0.15852330337842474,
+    "ARm_official_1500": 0.19184853463482726,
+    "AR_1500": 0.10386998375546488,
+    "gt_scale_distribution": {
+      "total_instances": 70424,
+      "total_valid": 70424,
+      "diagnostic_counts": {
+        "2-4px": 459,
+        "4-6px": 2521,
+        "6-8px": 6984,
+        "8-16px": 50036,
+        "sub-2px": 1,
+        ">=16px": 10423
+      },
+      "official_counts": {
+        "very_tiny": 10784,
+        "tiny": 49724,
+        "small": 8600,
+        "medium": 1316
+      },
+      "sum_2_to_16": 60000,
+      "scales_summary": {
+        "min": 1.4142135623730951,
+        "max": 63.874877690685246,
+        "avg": 12.625960135795912
+      }
+    }
+  }
+}

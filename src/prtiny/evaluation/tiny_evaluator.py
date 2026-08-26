@@ -247,8 +247,9 @@ def evaluate_project_2_8px(
     """
     gt, dt = _load_coco_and_dt(coco_gt, coco_dt)
     
+    # 严格半开区间 [2, 8) px 对应面积 [4.0, 64.0)
     min_area = min_scale ** 2
-    max_area = max_scale ** 2
+    max_area = (max_scale ** 2) - 1e-4
     
     coco_eval = COCOeval(gt, dt, "bbox")
     coco_eval.params.areaRng = [
@@ -284,10 +285,13 @@ def evaluate_full_prtiny(
     """运行 PRT-001-A1 完整评估协议并返回结构化指标报告"""
     gt, dt = _load_coco_and_dt(coco_gt, coco_dt)
     
-    # 1. 官方 AI-TOD 标准指标 (包含 very_tiny / 0-8px 范围)
+    # 1. 官方 AI-TOD 标准指标 (very_tiny: area in (0, 64], maxDets=1500)
     official_metrics = evaluate_official_aitod(gt, dt, max_dets=1500)
     
-    # 2. 诊断分箱统计 (GT 侧)
+    # 2. 项目精确 2-8 px 指标 (area in [4, 64), maxDets=3000)
+    project_metrics = evaluate_project_2_8px(gt, dt, min_scale=2.0, max_scale=8.0, max_dets=3000)
+    
+    # 3. 诊断分箱统计 (GT 侧)
     all_gt_anns = []
     if gt_annotations_list is not None:
         all_gt_anns = gt_annotations_list
@@ -301,8 +305,8 @@ def evaluate_full_prtiny(
     combined = {
         # 核心主指标与配对指标
         "APvt_official_1500": official_metrics["APvt_official_1500"],
-        "ARvt_2_8_3000": official_metrics["ARvt_official_1500"],
-        "AP_2_8_3000": official_metrics["APvt_official_1500"],
+        "ARvt_2_8_3000": project_metrics["ARvt_2_8_3000"],
+        "AP_2_8_3000": project_metrics["AP_2_8_3000"],
         "AP": official_metrics["AP"],
         "AP50": official_metrics["AP50"],
         "AP75": official_metrics["AP75"],
