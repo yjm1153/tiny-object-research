@@ -1,0 +1,14 @@
+{
+  "B1-U": {
+    "config_name": "B1-U",
+    "config_path": "configs/prtiny/fcos_r50_fpn_p2p6_unfrozen_aitodv2.py",
+    "smoke_status": "PASSED",
+    "iterations_completed": 10
+  },
+  "PDD-U": {
+    "config_name": "PDD-U",
+    "config_path": "configs/prtiny/fcos_r50_pdd_p2p6_aitodv2.py",
+    "smoke_status": "PASSED",
+    "iterations_completed": 10
+  }
+}

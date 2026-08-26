@@ -1,0 +1,66 @@
+{
+  "task_id": "PRT-002-A1",
+  "module_name": "PDD (Partial Detail-Preserving Downsampling)",
+  "backbone_type": "ResNetWithPDD (ResNet-50 variant)",
+  "declared_pdd_stages": [
+    0
+  ],
+  "actual_replacement_location": {
+    "position": "backbone.maxpool (Stem transition to Stage 1 / C2)",
+    "replaced_module": "nn.MaxPool2d(kernel_size=3, stride=2, padding=1)",
+    "replacement_module": "PDDDownsample(in_channels=64, out_channels=64, split_ratio=0.5)",
+    "is_single_position": true,
+    "stages_1_2_3_downsampling": "Standard ResNet Bottleneck Conv(1x1 stride 2) shortcut downsampling"
+  },
+  "feature_pyramid_shapes": {
+    "input_resolution": "[B, 3, H, W]",
+    "backbone_stages": {
+      "stem_conv1": "[B, 64, H/2, W/2]",
+      "stem_maxpool_pdd": "[B, 64, H/4, W/4]",
+      "C2 (layer1, stride 4)": "[B, 256, H/4, W/4]",
+      "C3 (layer2, stride 8)": "[B, 512, H/8, W/8]",
+      "C4 (layer3, stride 16)": "[B, 1024, H/16, W/16]",
+      "C5 (layer4, stride 32)": "[B, 2048, H/32, W/32]"
+    },
+    "fpn_levels": {
+      "P2": {
+        "stride": 4,
+        "channels": 256,
+        "shape": "[B, 256, H/4, W/4]",
+        "regress_range": "(-1, 32)"
+      },
+      "P3": {
+        "stride": 8,
+        "channels": 256,
+        "shape": "[B, 256, H/8, W/8]",
+        "regress_range": "(32, 64)"
+      },
+      "P4": {
+        "stride": 16,
+        "channels": 256,
+        "shape": "[B, 256, H/16, W/16]",
+        "regress_range": "(64, 128)"
+      },
+      "P5": {
+        "stride": 32,
+        "channels": 256,
+        "shape": "[B, 256, H/32, W/32]",
+        "regress_range": "(128, 256)"
+      },
+      "P6": {
+        "stride": 64,
+        "channels": 256,
+        "shape": "[B, 256, H/64, W/64]",
+        "regress_range": "(256, 1e8)"
+      }
+    }
+  },
+  "parameter_delta": {
+    "resnet50_standard_params": 23508032,
+    "resnet50_pdd_params": 23518752,
+    "pdd_extra_params": 10720,
+    "overhead_ratio": 0.000456,
+    "overhead_percentage": "0.046%",
+    "conforms_to_less_than_3_percent": true
+  }
+}

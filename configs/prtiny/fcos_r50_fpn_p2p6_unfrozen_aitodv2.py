@@ -1,10 +1,8 @@
-# Model: FCOS-R50-PDD-P2 (PDD 局部细节保留下采样增强模型, 单位置 Stage 0 Stem 下采样替换)
+# Baseline B1-U: FCOS-R50-FPN-P2 全解冻五层金字塔 (P2-P6, stride 4-64, frozen_stages=-1)
 # 数据集: AI-TOD-v2
 # 优化配置: batch_size=4 + lr=0.005 + num_workers=8 + val_interval=4 (FP32 数值极稳)
 
 _base_ = ['./aitodv2.py']
-
-custom_imports = dict(imports=['prtiny.models'], allow_failed_imports=False)
 
 model = dict(
     type='FCOS',
@@ -16,7 +14,7 @@ model = dict(
         pad_size_divisor=32
     ),
     backbone=dict(
-        type='ResNetWithPDD',
+        type='ResNet',
         depth=50,
         num_stages=4,
         out_indices=(0, 1, 2, 3),
@@ -24,8 +22,7 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=True),
         norm_eval=True,
         style='pytorch',
-        init_cfg=dict(type='Pretrained', checkpoint='data/pretrained/resnet50_msra-5891d200.pth'),
-        pdd_stages=(0,)  # 明确单位置：仅替换 Stage 0 maxpool
+        init_cfg=dict(type='Pretrained', checkpoint='data/pretrained/resnet50_msra-5891d200.pth')
     ),
     neck=dict(
         type='FPN',

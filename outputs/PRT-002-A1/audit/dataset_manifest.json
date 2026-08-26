@@ -1,0 +1,25 @@
+{
+  "dataset_name": "AI-TOD-v2",
+  "data_root": "data/AI-TOD-v2",
+  "splits": {
+    "train": {
+      "annotation_path": "data/AI-TOD-v2/annotations/aitod_train_v1.json",
+      "annotation_sha256": "7d653036412081db21e989a28e18ce437bc9098ec915dddfb85f079b7ca435de",
+      "image_count": 11214,
+      "instance_count": 282580,
+      "categories_count": 8,
+      "filenames_sha256": "fd83bb3ef21056ad55f60cdc56a79467c03465f5b3b052919cbaac13d0a0c9b5",
+      "conforms_to_prt001_a1_spec": false
+    },
+    "val": {
+      "annotation_path": "data/AI-TOD-v2/annotations/aitod_val_v1.json",
+      "annotation_sha256": "7d5de8eb03b2637611a0e6de8e0354890490daf89a5575d00242888fa4e63794",
+      "image_count": 2804,
+      "instance_count": 70424,
+      "categories_count": 8,
+      "filenames_sha256": "9fbfafeda687650667a3dcb64ad4a357db3498d9d776f870475f7f30f2c8085e",
+      "conforms_to_prt001_a1_spec": true
+    }
+  },
+  "audit_passed": true
+}

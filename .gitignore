@@ -48,6 +48,17 @@ outputs/*
 !outputs/PRT-001-A1/evaluator/
 !outputs/PRT-001-A1/evaluator/*.json
 !outputs/PRT-001-A1/**/metrics.json
+!outputs/PRT-002-A1/
+!outputs/PRT-002-A1/summary.csv
+!outputs/PRT-002-A1/paired_deltas.csv
+!outputs/PRT-002-A1/gate_report.json
+!outputs/PRT-002-A1/tests/
+!outputs/PRT-002-A1/tests/*.txt
+!outputs/PRT-002-A1/audit/
+!outputs/PRT-002-A1/audit/*.json
+!outputs/PRT-002-A1/smoke/
+!outputs/PRT-002-A1/smoke/*.json
+!outputs/PRT-002-A1/**/metrics.json
 
 runs/
 wandb/

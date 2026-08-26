@@ -1,0 +1,29 @@
+{
+  "task_id": "PRT-002-A1",
+  "audit_subject": "既有 PRT-002 PDD v1 与 v2 历史运行数据可复用性审查",
+  "audited_runs": [
+    {
+      "run_id": "PRT-002-PDD-v1",
+      "path": "outputs/PRT-002/PDD/seed0",
+      "reported_result": "AP=0.0000, loss collapse",
+      "root_cause_analysis": "使用了 frozen_stages=1 冻结 conv1/bn1，导致未训练的随机初始化 PDD 权重与冻结 stem 发生梯度与尺度失配；同时 PDD 拓扑在未解冻下未能有效学习",
+      "verdict": "LEGACY_ONLY",
+      "reuse_for_gate_b": false,
+      "reason": "已退化失效，不具备对比效力"
+    },
+    {
+      "run_id": "PRT-002-PDD-v2",
+      "path": "outputs/PRT-002/PDD_v1",
+      "reported_result": "AP=0.0340, AP_s=0.0360",
+      "discrepancies": [
+        "历史报告中记录实例数 (train 700,621 / val 175,234) 与当前官方 AI-TOD-v2 规范计数 (train 650,471 / val 70,424) 不一致",
+        "历史运行未保存带 SHA-256 哈希的 predictions.bbox.json，缺少官方 APvt (1500 maxDets) 与精确 [2,8) ARvt 评估输出",
+        "配置文本声明 pdd_stages=(0,1) 但实际代码仅实现 stage 0 单位置替换"
+      ],
+      "verdict": "LEGACY_ONLY",
+      "reuse_for_gate_b": false,
+      "reason": "历史数据划分与指标口径不可追溯，不能直接作为 PDD-U seed 0；本阶段必须在统一 AI-TOD-v2 规范数据上全新训练并评测合格的 PDD-U seed 0"
+    }
+  ],
+  "conclusion": "全部既有 PDD 历史数据均归档为 LEGACY_ONLY，本任务必须全新运行匹配的 B1-U seed 0 与 PDD-U seed 0"
+}

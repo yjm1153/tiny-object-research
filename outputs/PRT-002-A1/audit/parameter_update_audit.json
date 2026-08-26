@@ -1,0 +1,270 @@
+{
+  "B0": {
+    "config_name": "B0",
+    "config_path": "configs/prtiny/fcos_r50_fpn_p3p7_aitodv2.py",
+    "frozen_stages": 1,
+    "total_params": 32129362,
+    "trainable_params": 31904018,
+    "frozen_params": 225344,
+    "trainable_ratio": 0.993,
+    "module_breakdown": {
+      "conv1": {
+        "total_params": 4338880,
+        "trainable_params": 4292608,
+        "is_trainable": true,
+        "max_gradient_norm": 18694.123047,
+        "max_param_update_norm": 93.470627,
+        "actually_updated": true
+      },
+      "bn1": {
+        "total_params": 7680,
+        "trainable_params": 7168,
+        "is_trainable": true,
+        "max_gradient_norm": 4817.59668,
+        "max_param_update_norm": 24.087984,
+        "actually_updated": true
+      },
+      "maxpool": {
+        "total_params": 0,
+        "trainable_params": 0,
+        "is_trainable": false,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "layer1": {
+        "total_params": 215808,
+        "trainable_params": 0,
+        "is_trainable": false,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "layer2": {
+        "total_params": 1219584,
+        "trainable_params": 1219584,
+        "is_trainable": true,
+        "max_gradient_norm": 113667.054688,
+        "max_param_update_norm": 568.335205,
+        "actually_updated": true
+      },
+      "neck": {
+        "total_params": 3868672,
+        "trainable_params": 3868672,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "bbox_head": {
+        "total_params": 4752658,
+        "trainable_params": 4752658,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      }
+    }
+  },
+  "B1": {
+    "config_name": "B1",
+    "config_path": "configs/prtiny/fcos_r50_fpn_p2p6_aitodv2.py",
+    "frozen_stages": 1,
+    "total_params": 32195154,
+    "trainable_params": 31969810,
+    "frozen_params": 225344,
+    "trainable_ratio": 0.993,
+    "module_breakdown": {
+      "conv1": {
+        "total_params": 4338880,
+        "trainable_params": 4292608,
+        "is_trainable": true,
+        "max_gradient_norm": 21014.982422,
+        "max_param_update_norm": 105.074905,
+        "actually_updated": true
+      },
+      "bn1": {
+        "total_params": 7680,
+        "trainable_params": 7168,
+        "is_trainable": true,
+        "max_gradient_norm": 4386.237793,
+        "max_param_update_norm": 21.931189,
+        "actually_updated": true
+      },
+      "maxpool": {
+        "total_params": 0,
+        "trainable_params": 0,
+        "is_trainable": false,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "layer1": {
+        "total_params": 215808,
+        "trainable_params": 0,
+        "is_trainable": false,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "layer2": {
+        "total_params": 1219584,
+        "trainable_params": 1219584,
+        "is_trainable": true,
+        "max_gradient_norm": 113546.914062,
+        "max_param_update_norm": 567.734802,
+        "actually_updated": true
+      },
+      "neck": {
+        "total_params": 3934464,
+        "trainable_params": 3934464,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "bbox_head": {
+        "total_params": 4752658,
+        "trainable_params": 4752658,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      }
+    }
+  },
+  "B1-U": {
+    "config_name": "B1-U",
+    "config_path": "configs/prtiny/fcos_r50_fpn_p2p6_unfrozen_aitodv2.py",
+    "frozen_stages": -1,
+    "total_params": 32195154,
+    "trainable_params": 32195154,
+    "frozen_params": 0,
+    "trainable_ratio": 1.0,
+    "module_breakdown": {
+      "conv1": {
+        "total_params": 4338880,
+        "trainable_params": 4338880,
+        "is_trainable": true,
+        "max_gradient_norm": 85903.023438,
+        "max_param_update_norm": 429.515137,
+        "actually_updated": true
+      },
+      "bn1": {
+        "total_params": 7680,
+        "trainable_params": 7680,
+        "is_trainable": true,
+        "max_gradient_norm": 52208.449219,
+        "max_param_update_norm": 261.042236,
+        "actually_updated": true
+      },
+      "maxpool": {
+        "total_params": 0,
+        "trainable_params": 0,
+        "is_trainable": false,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "layer1": {
+        "total_params": 215808,
+        "trainable_params": 215808,
+        "is_trainable": true,
+        "max_gradient_norm": 364585.625,
+        "max_param_update_norm": 1822.928101,
+        "actually_updated": true
+      },
+      "layer2": {
+        "total_params": 1219584,
+        "trainable_params": 1219584,
+        "is_trainable": true,
+        "max_gradient_norm": 111514.789062,
+        "max_param_update_norm": 557.573975,
+        "actually_updated": true
+      },
+      "neck": {
+        "total_params": 3934464,
+        "trainable_params": 3934464,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "bbox_head": {
+        "total_params": 4752658,
+        "trainable_params": 4752658,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      }
+    }
+  },
+  "PDD-U": {
+    "config_name": "PDD-U",
+    "config_path": "configs/prtiny/fcos_r50_pdd_p2p6_aitodv2.py",
+    "frozen_stages": -1,
+    "total_params": 32205874,
+    "trainable_params": 32205874,
+    "frozen_params": 0,
+    "trainable_ratio": 1.0,
+    "module_breakdown": {
+      "conv1": {
+        "total_params": 4338880,
+        "trainable_params": 4338880,
+        "is_trainable": true,
+        "max_gradient_norm": 71760.984375,
+        "max_param_update_norm": 358.804932,
+        "actually_updated": true
+      },
+      "bn1": {
+        "total_params": 7680,
+        "trainable_params": 7680,
+        "is_trainable": true,
+        "max_gradient_norm": 62764.300781,
+        "max_param_update_norm": 313.821533,
+        "actually_updated": true
+      },
+      "maxpool": {
+        "total_params": 10720,
+        "trainable_params": 10720,
+        "is_trainable": true,
+        "max_gradient_norm": 91008.320312,
+        "max_param_update_norm": 455.041565,
+        "actually_updated": true
+      },
+      "layer1": {
+        "total_params": 215808,
+        "trainable_params": 215808,
+        "is_trainable": true,
+        "max_gradient_norm": 164748.75,
+        "max_param_update_norm": 823.743713,
+        "actually_updated": true
+      },
+      "layer2": {
+        "total_params": 1219584,
+        "trainable_params": 1219584,
+        "is_trainable": true,
+        "max_gradient_norm": 62711.578125,
+        "max_param_update_norm": 313.557587,
+        "actually_updated": true
+      },
+      "neck": {
+        "total_params": 3934464,
+        "trainable_params": 3934464,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      },
+      "bbox_head": {
+        "total_params": 4752658,
+        "trainable_params": 4752658,
+        "is_trainable": true,
+        "max_gradient_norm": 0.0,
+        "max_param_update_norm": 0.0,
+        "actually_updated": false
+      }
+    }
+  }
+}
