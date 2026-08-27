@@ -57,7 +57,7 @@ def verify_gate_ap(root_dir: str, results: Dict[str, Dict[int, Dict[str, Any]]])
     # 1. 检查 audit 目录下的 4 个必要文件
     audit_files = [
         ("dataset_manifest.json", ["splits", "audit_passed"]),
-        ("topology_audit.json", ["actual_replacement_location", "conforms_to_less_than_3_percent"]),
+        ("topology_audit.json", ["actual_replacement_location", "parameter_delta"]),
         ("parameter_update_audit.json", ["B1-U", "PDD-U"]),
         ("legacy_run_audit.json", ["audited_runs", "conclusion"])
     ]

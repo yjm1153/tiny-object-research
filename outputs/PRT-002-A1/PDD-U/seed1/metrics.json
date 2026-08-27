@@ -1,0 +1,59 @@
+{
+  "task_id": "PRT-001-A1",
+  "config_path": "configs/prtiny/fcos_r50_pdd_p2p6_aitodv2.py",
+  "config_sha256": "9a576b8c3d8ca2da85cf6c592fcc7189abe9f3386cd5342afef7811831d90dd9",
+  "checkpoint_path": "outputs/PRT-002-A1/PDD-U/seed1/best_coco_bbox_mAP_epoch_12.pth",
+  "checkpoint_sha256": "664dd5f9322fc37a86890272b08e051ef9e039a9aa54bd07232b160f251964b3",
+  "prediction_json_path": "outputs/PRT-002-A1/PDD-U/seed1/predictions.bbox.json",
+  "prediction_json_sha256": "14afe6f2920fc6cef60c7ba16064fa4db3024144141c2501c5ea5d3f8c8ab822",
+  "ann_file": "data/AI-TOD-v2/annotations/aitod_val_v1.json",
+  "evaluator_official_commit": "44a230ae5197cb89bf9e5e62f313cac3ad30c7af",
+  "metrics": {
+    "APvt_official_1500": 0.0027227722772277226,
+    "ARvt_2_8_3000": 0.0016798235384803913,
+    "AP_2_8_3000": 0.0023514851485148514,
+    "AP": 0.010389526437099705,
+    "AP50": 0.03458856899712294,
+    "AP75": 0.003526189364259278,
+    "APt_official_1500": 0.014251912206609298,
+    "APs_official_1500": 0.006949646937051702,
+    "APm_official_1500": 0.008768320657167256,
+    "ARvt_official_1500": 0.0019650371892738303,
+    "ARt_official_1500": 0.04782012111238698,
+    "ARs_official_1500": 0.06281239011180664,
+    "ARm_official_1500": 0.09987684235949129,
+    "AR_1500": 0.043744821192136296,
+    "gt_scale_distribution": {
+      "total_instances": 70424,
+      "total_valid": 70424,
+      "diagnostic_counts": {
+        "2-4px": 459,
+        "4-6px": 2521,
+        "6-8px": 6984,
+        "8-16px": 50036,
+        "sub-2px": 1,
+        ">=16px": 10423
+      },
+      "official_counts": {
+        "very_tiny": 10784,
+        "tiny": 49724,
+        "small": 8600,
+        "medium": 1316
+      },
+      "sum_2_to_16": 60000,
+      "scales_summary": {
+        "min": 1.4142135623730951,
+        "max": 63.874877690685246,
+        "avg": 12.625960135795912
+      }
+    }
+  },
+  "raw_mmdet_metrics": {
+    "coco/bbox_mAP": 0.01,
+    "coco/bbox_mAP_50": 0.035,
+    "coco/bbox_mAP_75": 0.004,
+    "coco/bbox_mAP_s": 0.011,
+    "coco/bbox_mAP_m": 0.009,
+    "coco/bbox_mAP_l": -1.0
+  }
+}

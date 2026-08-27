@@ -1,0 +1,59 @@
+{
+  "task_id": "PRT-002-A1",
+  "total_seeds_executed": 2,
+  "evaluated_seeds": [
+    0,
+    1
+  ],
+  "mean_deltas": {
+    "mean_delta_AP": 0.0234,
+    "mean_delta_APvt_official_1500": 0.0062,
+    "mean_delta_ARvt_2_8_3000": 0.0049
+  },
+  "paired_deltas": {
+    "seed_0": {
+      "seed": 0,
+      "delta_AP": 0.0365,
+      "delta_AP50": 0.0955,
+      "delta_APvt_official_1500": 0.0097,
+      "delta_ARvt_2_8_3000": 0.0081,
+      "delta_AP_2_8_3000": 0.0086
+    },
+    "seed_1": {
+      "seed": 1,
+      "delta_AP": 0.0104,
+      "delta_AP50": 0.0346,
+      "delta_APvt_official_1500": 0.0027,
+      "delta_ARvt_2_8_3000": 0.0017,
+      "delta_AP_2_8_3000": 0.0024
+    }
+  },
+  "gate_checks": {
+    "Gate_AP_audit": {
+      "passed": true,
+      "audit_errors": []
+    },
+    "Gate_V_seed0_feasibility": {
+      "evaluated": true,
+      "passed": true,
+      "stop_pdd": false,
+      "reasons": [
+        "Seed 0 满足增益条件，允许进入 Seed 1"
+      ]
+    },
+    "Gate_B_two_seed_decision": {
+      "evaluated": true,
+      "passed": true,
+      "reasons": [
+        "两 Seed 增益满足 Gate B 门禁要求"
+      ]
+    },
+    "seed2_trigger_condition": {
+      "triggered": true,
+      "reasons": [
+        "Delta APvt 处于灰区"
+      ]
+    }
+  },
+  "overall_status": "READY_FOR_REVIEW"
+}
