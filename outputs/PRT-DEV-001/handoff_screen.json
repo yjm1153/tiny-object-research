@@ -1,0 +1,36 @@
+{
+  "task_id": "PRT-DEV-001",
+  "screened_task_id": "PRT-002-A1",
+  "source_commit": "5948a160dfe840ca599932fdfc75f24ba7c2b4bc",
+  "status": "BLOCKED",
+  "formal_release_authorized": false,
+  "issues": [
+    "DATA_COUNT_CONFLICT:train",
+    "DATA_SPEC_NOT_CONFIRMED:train",
+    "DEGENERATE_RUN_REQUIRES_DIAGNOSIS:B1-U:seed0",
+    "DEGENERATE_RUN_REQUIRES_DIAGNOSIS:B1-U:seed1",
+    "PARAMETER_CONFIG_MISSING:B1-F1",
+    "PARAMETER_CONFIG_MISSING:PDD-F1",
+    "RUN_IDENTITY_INVALID:B1-U:seed0",
+    "RUN_IDENTITY_INVALID:B1-U:seed1",
+    "RUN_IDENTITY_INVALID:PDD-U:seed0",
+    "RUN_IDENTITY_INVALID:PDD-U:seed1",
+    "SEED2_REQUIRED_BEFORE_CONCLUSION"
+  ],
+  "warnings": [
+    "Artifact bytes/logs/predictions were not reevaluated; hash syntax is not verification.",
+    "Stem audits require exact module paths and the actual training optimizer/loss.",
+    "Submitted Gate B pass does not close the prerequisite/seed conflicts."
+  ],
+  "paired_seeds": [
+    0,
+    1
+  ],
+  "mean_deltas": {
+    "AP": 0.02344744456704835,
+    "APvt_official_1500": 0.006213985849040692,
+    "ARvt_2_8_3000": 0.004895512670717473
+  },
+  "numeric_keep_criterion_met": true,
+  "seed2_required": true
+}
