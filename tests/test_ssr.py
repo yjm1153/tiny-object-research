@@ -17,6 +17,8 @@ def test_dct_orthonormal_and_frequency_fixtures():
     assert dc[:, 1:].abs().max() < 1e-8
     high_patch = bands.filters[15, 0].reshape(1, 1, 4, 4)
     assert bands(high_patch)[:, 2].min() > 0.999
+    mid_patch = bands.filters[2, 0].reshape(1, 1, 4, 4)
+    assert bands(mid_patch)[:, 1].min() > 0.999
     assert torch.equal(bands(torch.zeros(1, 2, 5, 7)), torch.zeros(1, 6, 5, 7))
 
 
@@ -54,6 +56,15 @@ def test_disabled_identity_and_zero_scale_identity():
     assert SpatialSpectralRefinement(8, enabled=False)(x) is x
     y = SpatialSpectralRefinement(8, layer_scale=0)(x)
     assert torch.equal(x, y)
+
+
+def test_closed_gate_cannot_leak_output_bias():
+    module = SpatialSpectralRefinement(8, 4, layer_scale=1.)
+    with torch.no_grad():
+        module.spatial[-1].weight.zero_()
+        module.spatial[-1].bias.fill_(-1e6)
+    x = torch.randn(1, 8, 9, 11)
+    assert torch.equal(x, module(x))
 
 
 def test_spatial_matched_capacity_and_active_parameters():
@@ -109,3 +120,15 @@ def test_constructor_rejects_invalid_mode():
         SpatialSpectralRefinement(mode="unknown")
     with pytest.raises(ValueError):
         LocalBandEnergy(eps=0)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
+def test_cuda_amp_has_finite_gradients():
+    module = SpatialSpectralRefinement(8, 4).cuda()
+    x = torch.randn(1, 8, 9, 11, device="cuda", requires_grad=True)
+    with torch.autocast("cuda", dtype=torch.float16):
+        y = module(x)
+        loss = y.square().mean()
+    loss.backward()
+    assert torch.isfinite(x.grad).all()
+    assert all(p.grad is not None and torch.isfinite(p.grad).all() for p in module.parameters())

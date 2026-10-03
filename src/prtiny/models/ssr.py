@@ -84,7 +84,8 @@ class SpatialSpectralRefinement(nn.Module):
         d = hidden_channels
         self.project = nn.Conv2d(channels, d, 1)
         self.value = nn.Conv2d(d, d, 3, padding=1, groups=d)
-        self.out = nn.Conv2d(d, channels, 1)
+        # A closed gate must yield an exactly zero residual, not an output bias.
+        self.out = nn.Conv2d(d, channels, 1, bias=False)
         self.alpha = nn.Parameter(torch.full((1, channels, 1, 1), float(layer_scale)))
         self.spatial = None if mode == "frequency_only" else nn.Sequential(
             nn.Conv2d(d, d, 3, padding=1, groups=d), nn.Conv2d(d, d, 1))

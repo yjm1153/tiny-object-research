@@ -58,6 +58,8 @@ mlruns/
 outputs/PRT-DEV-001/*
 !outputs/PRT-DEV-001/smoke_cpu.json
 !outputs/PRT-DEV-001/smoke_cuda.json
+!outputs/PRT-DEV-001/smoke_cpu_rerun1.json
+!outputs/PRT-DEV-001/smoke_cuda_rerun1.json
 !outputs/PRT-DEV-001/handoff_screen.json
 !outputs/PRT-DEV-001/pytest.txt
 

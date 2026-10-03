@@ -58,7 +58,9 @@ def main():
     report = {
         "task_id": "PRT-DEV-001", "status": "SMOKE_ONLY", "review_status": "READY_FOR_REVIEW",
         "run_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
-        "source_dirty": bool(subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=no"], cwd=ROOT, text=True).strip()),
+        "source_dirty": bool(subprocess.check_output(
+            ["git", "status", "--porcelain", "--", "src", "configs", "tests", "tools"],
+            cwd=ROOT, text=True).strip()),
         "python": platform.python_version(), "torch": torch.__version__, "device": str(device),
         "gpu": torch.cuda.get_device_name(device) if device.type == "cuda" else None,
         "mmdet_installed": importlib.util.find_spec("mmdet") is not None,
