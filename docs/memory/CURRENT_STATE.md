@@ -1,5 +1,15 @@
 # 副线研究当前状态
 
+## 2026-10-03 活跃任务补充（优先于下面历史快照的执行状态）
+
+- 用户已要求继续调研、完善原 PDD+SSR 路线并开始代码搭建；见 `docs/decisions/DR-005-original-route-code-preparation.md`。
+- 当前研究设计：`docs/research_route_v0.2.md`；补充文献：`research/literature/2026-10-03-prtiny-novelty-audit.md`。
+- GitHub 最新 PRT-002-A1 交接仍为 `5948a160dfe840ca599932fdfc75f24ba7c2b4bc`；尚无研究终审通过。
+- `research/reviews/2026-10-03-prt002-a1-evidence-screening.md` 定位了训练实例数规范冲突、退化基线、参数审计和 Gate 状态缺陷。必须补证；不要按实验报告自评进入完整 SSR 训练。
+- 新独立工程准备任务 `PRT-DEV-001`：`APPROVED_WITH_CONDITIONS`，设计集成后仅允许合成模块测试与只读交接诊断；不读取数据集、不训练检测器。当前 session 若执行代码，不能正式批准自己的结果。
+- PRT-001-A1 的历史审查保留，不新增方法有效事实；PRT-003、完整方法矩阵、泛化与效率实验仍锁定。
+- 下方为 2026-08-26 历史测量快照；其中旧当前任务/许可描述由本补充限定。
+
 - Snapshot date: 2026-08-26
 - Snapshot status: `MEASURED / REVIEW_PASSED`
 - Workspace: `D:\研究\tiny-object-research`
