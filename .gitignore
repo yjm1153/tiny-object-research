@@ -54,6 +54,13 @@ wandb/
 mlruns/
 
 # Local secrets and machine-specific configuration
+!outputs/PRT-DEV-001/
+outputs/PRT-DEV-001/*
+!outputs/PRT-DEV-001/smoke_cpu.json
+!outputs/PRT-DEV-001/smoke_cuda.json
+!outputs/PRT-DEV-001/handoff_screen.json
+!outputs/PRT-DEV-001/pytest.txt
+
 .env
 .env.*
 *.local.yaml
