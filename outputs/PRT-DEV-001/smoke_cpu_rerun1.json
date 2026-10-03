@@ -1,0 +1,80 @@
+{
+  "task_id": "PRT-DEV-001",
+  "status": "SMOKE_ONLY",
+  "review_status": "READY_FOR_REVIEW",
+  "run_commit": "29fb1fbcaad6f85d90a9f604116b4b1407529569",
+  "source_dirty": false,
+  "python": "3.13.5",
+  "torch": "2.12.0.dev20260408+cu128",
+  "device": "cpu",
+  "gpu": null,
+  "mmdet_installed": false,
+  "config": {
+    "task_id": "PRT-DEV-001",
+    "status": "SYNTHETIC_ONLY",
+    "formal_training_authorized": false,
+    "pdd": {
+      "in_channels": 64,
+      "out_channels": 64,
+      "split_ratio": 0.5
+    },
+    "ssr": {
+      "channels": 256,
+      "hidden_channels": 16,
+      "mode": "full",
+      "layer_scale": 0.001
+    },
+    "pyramid_levels": [
+      "P2",
+      "P3",
+      "P4",
+      "P5",
+      "P6"
+    ]
+  },
+  "seed": 37,
+  "pdd_output_shape": [
+    2,
+    64,
+    18,
+    19
+  ],
+  "modes": {
+    "full": {
+      "parameters": 9840,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    },
+    "spatial_only": {
+      "parameters": 9056,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    },
+    "spatial_matched": {
+      "parameters": 9840,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    },
+    "frequency_only": {
+      "parameters": 9408,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    },
+    "no_agreement": {
+      "parameters": 9840,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    },
+    "shuffled_frequency": {
+      "parameters": 9840,
+      "finite_gradients": true,
+      "optimizer_updated_output": true
+    }
+  },
+  "p3_to_p6_unchanged": true,
+  "detector_integration": "NOT_TESTED",
+  "AP": "NOT_TESTED",
+  "latency": "NOT_TESTED",
+  "dataset_accessed": false,
+  "formal_training_authorized": false
+}
